@@ -3,7 +3,7 @@ class Customcarousel extends HTMLElement {
     super();
     this.isInitialized = false;
     this.item = "item";
-    this.centeredItem = 0;
+    this.initItem = 0;
     this.currentlyCentered;
     this.transitionDuration = 0;
     this.transitionType = "ease";
@@ -17,13 +17,14 @@ class Customcarousel extends HTMLElement {
   static get observedAttributes() {
     return [
       "infinite",
-      "centered-item",
-      "even-centering",
+      "init-item",
+      "center-between",
       "autoplay",
       "interval",
       "direction",
       "transition-duration",
-      "transition-type"
+      "transition-type",
+      "item"
     ];
   }
 
@@ -32,10 +33,10 @@ class Customcarousel extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "infinite") {
       this.infinite = true;
-    } else if (name === "centered-item") {
-      this.centeredItem = parseInt(newValue);
-    } else if (name === "even-centering") {
-      this.evenCentering = true;
+    } else if (name === "init-item") {
+      this.initItem = parseInt(newValue);
+    } else if (name === "center-between") {
+      this.centerBetween = true;
     } else if (name === "transition-duration") {
       this.transitionDuration = parseInt(newValue);
     } else if (name === "transition-type") {
@@ -46,6 +47,8 @@ class Customcarousel extends HTMLElement {
       this.interval = parseInt(newValue);
     } else if (name === "direction") {
       this.direction = newValue;
+    } else if (name === 'item') {
+      this.item = newValue
     }
   }
 
@@ -63,8 +66,8 @@ class Customcarousel extends HTMLElement {
 
     if (!this.infinite) {
       if (
-        (!this.evenCentering && this.currentlyCentered + (steps - 1) < this.itemsCount - 1) ||
-        (this.evenCentering && this.currentlyCentered < this.itemsCount - 3)
+        (!this.centerBetween && this.currentlyCentered + (steps - 1) < this.itemsCount - 1) ||
+        (this.centerBetween && this.currentlyCentered < this.itemsCount - 3)
       ) {
         this.stopTransition();
       }
@@ -111,7 +114,7 @@ class Customcarousel extends HTMLElement {
   centerItemByIndex(index) {
     let center = this.offsetWidth / 2;
     let entries = this.itemsContainer.querySelectorAll("." + this.item);
-    if ((this.evenCentering && index === entries.length - 1) || !entries[index]) {
+    if ((this.centerBetween && index === entries.length - 1) || !entries[index]) {
       return;
     }
     let sum = 0;
@@ -122,7 +125,7 @@ class Customcarousel extends HTMLElement {
       sum += entries[i].offsetWidth + margin;
     }
     let initLeftMargin = parseFloat(window.getComputedStyle(entries[0]).marginLeft);
-    let itemWidthHalf = this.evenCentering
+    let itemWidthHalf = this.centerBetween
       ? entries[index].offsetWidth
       : entries[index].offsetWidth / 2;
     let left = center - (sum + initLeftMargin + itemWidthHalf);
@@ -234,7 +237,7 @@ class Customcarousel extends HTMLElement {
   itemsInit() {
     if (!this.infinite) {
       this.copyItems(1);
-      this.centerItemByIndex(this.centeredItem);
+      this.centerItemByIndex(this.initItem);
       return;
     }
 
@@ -256,7 +259,7 @@ class Customcarousel extends HTMLElement {
       if (this.currentlyCentered) {
         index = this.originalIndex;
       } else {
-        index = this.centeredItem;
+        index = this.initItem;
       }
       this.centerItemByIndex(this.originalEntries.length * (factor / 2) + index);
       this.checkItemMoving();
@@ -306,7 +309,7 @@ class Customcarousel extends HTMLElement {
 
   autoplayHandler() {
     if (!this.infinite) {
-      if (this.evenCentering && this.currentlyCentered >= this.itemsCount - 2) {
+      if (this.centerBetween && this.currentlyCentered >= this.itemsCount - 2) {
         this.direction = "right";
       } else if (this.currentlyCentered >= this.itemsCount - 1) {
         this.direction = "right";
@@ -340,22 +343,21 @@ class Customcarousel extends HTMLElement {
     if (this.infinite) {
       return steps;
     }
-    let subtraction = this.evenCentering ? 2 : 1;
+    let subtraction = this.centerBetween ? 2 : 1;
     let remaining;
     if (dir === "l") {
       remaining = this.originalEntries.length - subtraction - this.currentlyCentered;
-      if (remaining < steps) {
-        return remaining;
-      }
-      return steps;
     }
-    if (dir === "r") {
+    else if (dir === "r") {
       remaining = this.currentlyCentered;
-      if (remaining < steps) {
-        return remaining;
-      }
-      return steps;
+    } else {
+      return null
     }
+
+    if (remaining < steps) {
+      return remaining;
+    }
+    return steps;
   }
 
   getItemIndex(element) {
@@ -368,7 +370,7 @@ class Customcarousel extends HTMLElement {
 
   downEventHandler(event) {
 
-    let closestElement = event.target.closest(".item");
+    let closestElement = event.target.closest("." + this.item);
     this.downEventItemIndex = this.getItemIndex(closestElement);
 
     event.preventDefault();
@@ -392,14 +394,16 @@ class Customcarousel extends HTMLElement {
       elem = event.target;
     }
 
-    let closestElement = elem.closest(".item");
+    let closestElement = elem.closest("." + this.item);
     let shiftInItems = Math.abs(this.downEventItemIndex - this.getItemIndex(closestElement));
     let xShift = (event.pageX ? event.pageX : event.changedTouches[0].pageX) - this.x;
     let yShift = (event.pageY ? event.pageY : event.changedTouches[0].pageY) - this.y;
 
-    if (xShift < 0 && Math.abs(xShift) > Math.abs(yShift)) {
+    if (xShift < -50 && Math.abs(xShift) > Math.abs(yShift)) {
+      event.preventDefault();
       this.next(this.swipeReducer("l", shiftInItems));
-    } else if (xShift > 0 && Math.abs(xShift) > Math.abs(yShift)) {
+    } else if (xShift > 50 && Math.abs(xShift) > Math.abs(yShift)) {
+      event.preventDefault();
       this.prev(this.swipeReducer("r", shiftInItems));
     }
   }
@@ -417,7 +421,7 @@ class Customcarousel extends HTMLElement {
 
     this.originalEntries = this.querySelectorAll("." + this.item);
 
-    if (this.centeredItem + 1 > this.originalEntries.length) {
+    if (this.initItem + 1 > this.originalEntries.length) {
       throw "centered item value too big";
     }
 

@@ -452,7 +452,14 @@ class Customcarousel extends HTMLElement {
         this.itemsInit();
       }
     });
-    resizeObserver.observe(this);
+
+    if(resizeObserver) {
+      resizeObserver.observe(this);
+    } else {
+      window.addEventListener("resize", () => this.itemsInit() );
+      this.itemsInit();
+    }
+
     if (this.autoplay) {
       this.startAutoplay();
     }

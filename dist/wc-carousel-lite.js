@@ -369,6 +369,7 @@ class Customcarousel extends HTMLElement {
       this.x = event.targetTouches[0].pageX;
       this.y = event.targetTouches[0].pageY;
     }
+    this.startTime = new Date().getTime()
   }
 
   upEventHandler(event) {
@@ -393,6 +394,13 @@ class Customcarousel extends HTMLElement {
 
     let xShift = (event.pageX ? event.pageX : event.changedTouches[0].pageX) - this.x;
     let yShift = (event.pageY ? event.pageY : event.changedTouches[0].pageY) - this.y;
+
+    let elapsedTime = new Date().getTime() - this.startTime;
+
+    let speed = Math.abs(xShift/elapsedTime);
+    if(speed > 2) {
+      shiftInItems++;
+    }
 
     if (xShift < -50 && Math.abs(xShift) > Math.abs(yShift)) {
       event.preventDefault();

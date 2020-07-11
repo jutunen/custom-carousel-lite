@@ -1,3 +1,5 @@
+// Note: this.originalIndex is applicable only when this.infinite is truthy
+
 class Customcarousel extends HTMLElement {
   constructor() {
     super();
@@ -227,6 +229,12 @@ class Customcarousel extends HTMLElement {
   }
 
   itemsInit() {
+
+    if (!this.infinite) {
+      this.centerItemByIndex(this.currentlyCentered);
+      return;
+    }
+
     let factor = parseInt((2.5 * this.offsetWidth) / this.initItemsWidth);
 
     if (this.originalEntries.length < 3) {
@@ -453,9 +461,9 @@ class Customcarousel extends HTMLElement {
       this.copyItems(1);
       this.centerItemByIndex(this.initItem);
     } else {
-      window.addEventListener("resize", () => this.itemsInit() );
       this.itemsInit();
     }
+    window.addEventListener("resize", () => this.itemsInit() );
 
     if (this.autoplay) {
       this.startAutoplay();

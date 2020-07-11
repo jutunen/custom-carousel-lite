@@ -227,12 +227,6 @@ class Customcarousel extends HTMLElement {
   }
 
   itemsInit() {
-    if (!this.infinite) {
-      this.copyItems(1);
-      this.centerItemByIndex(this.initItem);
-      return;
-    }
-
     let factor = parseInt((2.5 * this.offsetWidth) / this.initItemsWidth);
 
     if (this.originalEntries.length < 3) {
@@ -447,14 +441,9 @@ class Customcarousel extends HTMLElement {
     this.onmouseup = this.upEventHandler;
     this.onmouseup = this.onmouseup.bind(this);
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        this.itemsInit();
-      }
-    });
-
-    if(resizeObserver) {
-      resizeObserver.observe(this);
+    if (!this.infinite) {
+      this.copyItems(1);
+      this.centerItemByIndex(this.initItem);
     } else {
       window.addEventListener("resize", () => this.itemsInit() );
       this.itemsInit();

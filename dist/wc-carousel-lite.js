@@ -117,8 +117,7 @@ class Customcarousel extends HTMLElement {
     if ((this.centerBetween && index === entries.length - 1) || !entries[index]) {
       return;
     }
-    let sum = 0;
-    let style, margin;
+    let style, margin, sum = 0;
     for (let i = 0; i < index; i++) {
       style = window.getComputedStyle(entries[i]);
       margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
@@ -167,8 +166,7 @@ class Customcarousel extends HTMLElement {
   }
 
   freeShift(shift) {
-    let currentPosition = parseInt(this.itemsContainer.style.left);
-    this.itemsContainer.style.left = currentPosition + shift + "px";
+    this.itemsContainer.style.left = parseInt(this.itemsContainer.style.left) + shift + "px";
   }
 
   copyItems(factor) {
@@ -194,19 +192,20 @@ class Customcarousel extends HTMLElement {
     this.itemsCount = this.itemsContainer.querySelectorAll("." + this.item).length;
   }
 
+  getItemWidth (item) {
+    let style, margin;
+    style = window.getComputedStyle(item);
+    margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+    let width = item.offsetWidth;
+    return width + margin;
+  }
+
   moveItemFromLeftToRight(count = 1) {
     for (let i = 0; i < count; i++) {
       this.itemsContainer.style.transition = "";
 
       let itemToBeRemoved = this.itemsContainer.querySelectorAll("." + this.item)[0];
-
-      let sum, style, margin;
-      style = window.getComputedStyle(itemToBeRemoved);
-      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-      let width = itemToBeRemoved.offsetWidth;
-      sum = width + margin;
-
-      this.freeShift(sum);
+      this.freeShift(this.getItemWidth(itemToBeRemoved));
       this.itemsContainer.appendChild(this.itemsContainer.removeChild(itemToBeRemoved));
       this.currentlyCentered--;
     }
@@ -218,14 +217,7 @@ class Customcarousel extends HTMLElement {
 
       let itemToBeRemoved = [...this.itemsContainer.querySelectorAll("." + this.item)].pop();
       //let itemToBeRemoved = this.itemsContainer.querySelectorAll('.' + this.item)[this.itemsContainer.querySelectorAll('.' + this.item).length - 1]
-
-      let sum, style, margin;
-      style = getComputedStyle(itemToBeRemoved);
-      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-      let width = itemToBeRemoved.offsetWidth;
-      sum = width + margin;
-
-      this.freeShift(0 - sum);
+      this.freeShift(-this.getItemWidth(itemToBeRemoved));
       this.itemsContainer.insertAdjacentElement(
         "afterbegin",
         this.itemsContainer.removeChild(itemToBeRemoved)
@@ -262,7 +254,7 @@ class Customcarousel extends HTMLElement {
         index = this.initItem;
       }
       this.centerItemByIndex(this.originalEntries.length * (factor / 2) + index);
-      this.checkItemMoving();
+      this.checkItemBalance();
       this.currentFactor = factor;
       this.originalIndex = index;
     } else {
@@ -270,7 +262,7 @@ class Customcarousel extends HTMLElement {
     }
   }
 
-  checkItemMoving() {
+  checkItemBalance() {
     //negative offset implies right side shortage of items
     //positive offset implies left side shortage of items
     let offset = this.itemsCount / 2 - this.currentlyCentered;
@@ -285,7 +277,8 @@ class Customcarousel extends HTMLElement {
       this.moveItemFromRightToLeft();
     }
 
-    this.checkItemMoving();
+    // potentially dangerous recursion!
+    this.checkItemBalance();
   }
 
   updateOriginalIndex(update) {
@@ -317,7 +310,6 @@ class Customcarousel extends HTMLElement {
         this.direction = "left";
       }
     }
-
     if (this.direction === "right") {
       this.prev();
     } else {
@@ -360,11 +352,9 @@ class Customcarousel extends HTMLElement {
   }
 
   getItemIndex(element) {
-
     if(!element) {
-      return null
+      return null;
     }
-
     let i = 0;
     while ((element = element.previousSibling) !== null) {
       i++;
@@ -450,7 +440,7 @@ class Customcarousel extends HTMLElement {
     /*
     this.ontouchcancel = this.upEventHandler
     this.ontouchcancel = this.ontouchcancel.bind(this)
-*/
+    */
     this.onmousedown = this.downEventHandler;
     this.onmousedown = this.onmousedown.bind(this);
 

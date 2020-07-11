@@ -343,10 +343,9 @@ class Customcarousel extends HTMLElement {
     if (this.infinite) {
       return steps;
     }
-    let subtraction = this.centerBetween ? 2 : 1;
     let remaining;
     if (dir === "l") {
-      remaining = this.originalEntries.length - subtraction - this.currentlyCentered;
+      remaining = this.originalEntries.length - (this.centerBetween ? 2 : 1) - this.currentlyCentered;
     }
     else if (dir === "r") {
       remaining = this.currentlyCentered;
@@ -361,6 +360,11 @@ class Customcarousel extends HTMLElement {
   }
 
   getItemIndex(element) {
+
+    if(!element) {
+      return null
+    }
+
     let i = 0;
     while ((element = element.previousSibling) !== null) {
       i++;
@@ -395,7 +399,14 @@ class Customcarousel extends HTMLElement {
     }
 
     let closestElement = elem.closest("." + this.item);
-    let shiftInItems = Math.abs(this.downEventItemIndex - this.getItemIndex(closestElement));
+    let closestIndex = this.getItemIndex(closestElement);
+    let shiftInItems;
+    if( Number.isInteger(this.downEventItemIndex) && Number.isInteger(closestIndex) ) {
+      shiftInItems = Math.abs(this.downEventItemIndex - closestIndex);
+    } else {
+      shiftInItems = 1;
+    }
+
     let xShift = (event.pageX ? event.pageX : event.changedTouches[0].pageX) - this.x;
     let yShift = (event.pageY ? event.pageY : event.changedTouches[0].pageY) - this.y;
 
@@ -417,8 +428,6 @@ class Customcarousel extends HTMLElement {
     this.itemsContainer.style.display = "inline-flex";
     this.itemsContainer.style.position = "relative";
     this.itemsContainer.overflow = "hidden";
-    console.log(this.transitionType);
-
     this.originalEntries = this.querySelectorAll("." + this.item);
 
     if (this.initItem + 1 > this.originalEntries.length) {

@@ -410,13 +410,23 @@ class Customcarousel extends HTMLElement {
       shiftInItems++;
     }
 
-    if (xShift < -50 && Math.abs(xShift) > Math.abs(yShift)) {
+    let limit = 50;
+    if ( Math.abs(xShift) > limit && Math.abs(xShift) > Math.abs(yShift) ) {
       event.preventDefault();
-      this.next(this.swipeReducer("l", shiftInItems));
-    } else if (xShift > 50 && Math.abs(xShift) > Math.abs(yShift)) {
-      event.preventDefault();
-      this.prev(this.swipeReducer("r", shiftInItems));
+      this.preventClick = true;
+      if (xShift < -limit ) {
+        this.next(this.swipeReducer("l", shiftInItems));
+      } else if (xShift > limit ) {
+        this.prev(this.swipeReducer("r", shiftInItems));
+      }
     }
+  }
+
+  clickHandler (event) {
+    if(this.preventClick) {
+      event.preventDefault();
+    }
+    this.preventClick = false;
   }
 
   _init() {
@@ -456,6 +466,9 @@ class Customcarousel extends HTMLElement {
 
     this.onmouseup = this.upEventHandler;
     this.onmouseup = this.onmouseup.bind(this);
+
+    this.onclick = this.clickHandler;
+    this.onclick = this.onclick.bind(this);
 
     if (!this.infinite) {
       this.copyItems(1);

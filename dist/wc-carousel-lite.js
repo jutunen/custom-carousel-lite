@@ -71,17 +71,17 @@ class Customcarousel extends HTMLElement {
         (!this.centerBetween && this.currentlyCentered + (steps - 1) < this.itemsCount - 1) ||
         (this.centerBetween && this.currentlyCentered < this.itemsCount - 3)
       ) {
-        this.stopTransition();
+        this._stopTransition();
       }
-      this.centerItemByIndex(this.currentlyCentered + steps);
+      this._centerItemByIndex(this.currentlyCentered + steps);
       return;
     }
 
     if (parseInt(getComputedStyle(this.itemsContainer).left) < 0) {
-      this.stopTransition();
-      this.moveItemFromLeftToRight(steps);
-      this.centerItemByIndex(this.currentlyCentered + steps);
-      this.updateOriginalIndex(steps);
+      this._stopTransition();
+      this._moveItemFromLeftToRight(steps);
+      this._centerItemByIndex(this.currentlyCentered + steps);
+      this._updateOriginalIndex(steps);
     }
   }
 
@@ -92,9 +92,9 @@ class Customcarousel extends HTMLElement {
 
     if (!this.infinite) {
       if (this.currentlyCentered < 0) {
-        this.stopTransition();
+        this._stopTransition();
       }
-      this.centerItemByIndex(this.currentlyCentered - steps);
+      this._centerItemByIndex(this.currentlyCentered - steps);
       return;
     }
 
@@ -102,18 +102,18 @@ class Customcarousel extends HTMLElement {
       this.itemsContainer.offsetWidth + parseInt(getComputedStyle(this.itemsContainer).left) >
       this.offsetWidth
     ) {
-      this.stopTransition();
-      this.moveItemFromRightToLeft(steps);
-      this.centerItemByIndex(this.currentlyCentered - steps);
-      this.updateOriginalIndex(-steps);
+      this._stopTransition();
+      this._moveItemFromRightToLeft(steps);
+      this._centerItemByIndex(this.currentlyCentered - steps);
+      this._updateOriginalIndex(-steps);
     }
   }
 
-  stopTransition() {
+  _stopTransition() {
     this.itemsContainer.style.left = getComputedStyle(this.itemsContainer).left;
   }
 
-  centerItemByIndex(index) {
+  _centerItemByIndex(index) {
     let center = this.offsetWidth / 2;
     let entries = this.itemsContainer.querySelectorAll("." + this.item);
     if ((this.centerBetween && index === entries.length - 1) || !entries[index]) {
@@ -142,7 +142,7 @@ class Customcarousel extends HTMLElement {
     }
 
     if (!this.infinite) {
-      this.centerItemByIndex(index);
+      this._centerItemByIndex(index);
       return;
     }
 
@@ -158,20 +158,20 @@ class Customcarousel extends HTMLElement {
     let shortest = Math.abs(distance) <= Math.abs(distance_2) ? distance : distance_2;
 
     if (shortest < 0) {
-      this.moveItemFromRightToLeft(Math.abs(shortest));
+      this._moveItemFromRightToLeft(Math.abs(shortest));
     } else if (shortest > 0) {
-      this.moveItemFromLeftToRight(Math.abs(shortest));
+      this._moveItemFromLeftToRight(Math.abs(shortest));
     }
 
-    this.centerItemByIndex(this.currentlyCentered + shortest);
-    this.updateOriginalIndex(shortest);
+    this._centerItemByIndex(this.currentlyCentered + shortest);
+    this._updateOriginalIndex(shortest);
   }
 
-  freeShift(shift) {
+  _freeShift(shift) {
     this.itemsContainer.style.left = parseInt(this.itemsContainer.style.left) + shift + "px";
   }
 
-  copyItems(factor) {
+  _copyItems(factor) {
     while (this.itemsContainer.firstChild) {
       this.itemsContainer.firstChild.remove();
     }
@@ -194,7 +194,7 @@ class Customcarousel extends HTMLElement {
     this.itemsCount = this.itemsContainer.querySelectorAll("." + this.item).length;
   }
 
-  getItemWidth (item) {
+  _getItemWidth (item) {
     let style, margin;
     style = window.getComputedStyle(item);
     margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
@@ -202,24 +202,24 @@ class Customcarousel extends HTMLElement {
     return width + margin;
   }
 
-  moveItemFromLeftToRight(count = 1) {
+  _moveItemFromLeftToRight(count = 1) {
     for (let i = 0; i < count; i++) {
       this.itemsContainer.style.transition = "";
 
       let itemToBeRemoved = this.itemsContainer.querySelectorAll("." + this.item)[0];
-      this.freeShift(this.getItemWidth(itemToBeRemoved));
+      this._freeShift(this._getItemWidth(itemToBeRemoved));
       this.itemsContainer.appendChild(this.itemsContainer.removeChild(itemToBeRemoved));
       this.currentlyCentered--;
     }
   }
 
-  moveItemFromRightToLeft(count = 1) {
+  _moveItemFromRightToLeft(count = 1) {
     for (let i = 0; i < count; i++) {
       this.itemsContainer.style.transition = "";
 
       let itemToBeRemoved = [...this.itemsContainer.querySelectorAll("." + this.item)].pop();
       //let itemToBeRemoved = this.itemsContainer.querySelectorAll('.' + this.item)[this.itemsContainer.querySelectorAll('.' + this.item).length - 1]
-      this.freeShift(-this.getItemWidth(itemToBeRemoved));
+      this._freeShift(-this._getItemWidth(itemToBeRemoved));
       this.itemsContainer.insertAdjacentElement(
         "afterbegin",
         this.itemsContainer.removeChild(itemToBeRemoved)
@@ -228,10 +228,10 @@ class Customcarousel extends HTMLElement {
     }
   }
 
-  itemsInit() {
+  _itemsInit() {
 
     if (!this.infinite) {
-      this.centerItemByIndex(this.currentlyCentered);
+      this._centerItemByIndex(this.currentlyCentered);
       return;
     }
 
@@ -248,15 +248,15 @@ class Customcarousel extends HTMLElement {
     }
 
     if (factor !== this.currentFactor) {
-      this.copyItems(factor);
+      this._copyItems(factor);
       let index;
       if (this.currentlyCentered) {
         index = this.originalIndex;
       } else {
         index = this.initItem;
       }
-      this.centerItemByIndex(this.originalEntries.length * (factor / 2) + index);
-      this.checkItemBalance();
+      this._centerItemByIndex(this.originalEntries.length * (factor / 2) + index);
+      this._checkItemBalance();
       this.currentFactor = factor;
       this.originalIndex = index;
     } else {
@@ -264,7 +264,7 @@ class Customcarousel extends HTMLElement {
     }
   }
 
-  checkItemBalance() {
+  _checkItemBalance() {
     //negative offset implies right side shortage of items
     //positive offset implies left side shortage of items
     let offset = this.itemsCount / 2 - this.currentlyCentered;
@@ -274,16 +274,16 @@ class Customcarousel extends HTMLElement {
     }
 
     if (offset < 0) {
-      this.moveItemFromLeftToRight();
+      this._moveItemFromLeftToRight();
     } else if (offset > 0) {
-      this.moveItemFromRightToLeft();
+      this._moveItemFromRightToLeft();
     }
 
     // potentially dangerous recursion!
-    this.checkItemBalance();
+    this._checkItemBalance();
   }
 
-  updateOriginalIndex(update) {
+  _updateOriginalIndex(update) {
     for (let i = 0; i < Math.abs(update); i++) {
       if (update > 0) {
         if (this.originalIndex + 1 === this.originalEntries.length) {
@@ -302,7 +302,7 @@ class Customcarousel extends HTMLElement {
     }
   }
 
-  autoplayHandler() {
+  _autoplayHandler() {
     if (!this.infinite) {
       if (this.centerBetween && this.currentlyCentered >= this.itemsCount - 2) {
         this.direction = "right";
@@ -326,14 +326,14 @@ class Customcarousel extends HTMLElement {
 
   startAutoplay() {
     if (this.intervalId === null) {
-      this.autoplayHandler();
+      this._autoplayHandler();
       this.intervalId = setInterval(() => {
-        this.autoplayHandler();
+        this._autoplayHandler();
       }, this.interval + this.transitionDuration);
     }
   }
 
-  swipeReducer(dir, steps) {
+  _swipeReducer(dir, steps) {
     if (this.infinite) {
       return steps;
     }
@@ -353,7 +353,7 @@ class Customcarousel extends HTMLElement {
     return steps;
   }
 
-  getItemIndex(element) {
+  _getItemIndex(element) {
     if(!element) {
       return null;
     }
@@ -364,10 +364,10 @@ class Customcarousel extends HTMLElement {
     return i;
   }
 
-  downEventHandler(event) {
+  _downEventHandler(event) {
 
     let closestElement = event.target.closest("." + this.item);
-    this.downEventItemIndex = this.getItemIndex(closestElement);
+    this.downEventItemIndex = this._getItemIndex(closestElement);
 
     event.preventDefault();
     if (event.pageX) {
@@ -380,7 +380,7 @@ class Customcarousel extends HTMLElement {
     this.startTime = new Date().getTime()
   }
 
-  upEventHandler(event) {
+  _upEventHandler(event) {
     let elem;
     if (event.changedTouches) {
       elem = document.elementFromPoint(
@@ -392,7 +392,7 @@ class Customcarousel extends HTMLElement {
     }
 
     let closestElement = elem.closest("." + this.item);
-    let closestIndex = this.getItemIndex(closestElement);
+    let closestIndex = this._getItemIndex(closestElement);
     let shiftInItems;
     if( Number.isInteger(this.downEventItemIndex) && Number.isInteger(closestIndex) ) {
       shiftInItems = Math.abs(this.downEventItemIndex - closestIndex);
@@ -415,14 +415,14 @@ class Customcarousel extends HTMLElement {
       event.preventDefault();
       this.preventClick = true;
       if (xShift < -limit ) {
-        this.next(this.swipeReducer("l", shiftInItems));
+        this.next(this._swipeReducer("l", shiftInItems));
       } else if (xShift > limit ) {
-        this.prev(this.swipeReducer("r", shiftInItems));
+        this.prev(this._swipeReducer("r", shiftInItems));
       }
     }
   }
 
-  clickHandler (event) {
+  _clickHandler (event) {
     if(this.preventClick) {
       event.preventDefault();
     }
@@ -452,31 +452,31 @@ class Customcarousel extends HTMLElement {
       this.initItemsWidth += this.originalEntries[i].offsetWidth + margin;
     }
 
-    this.ontouchstart = this.downEventHandler;
+    this.ontouchstart = this._downEventHandler;
     this.ontouchstart = this.ontouchstart.bind(this);
 
-    this.ontouchend = this.upEventHandler;
+    this.ontouchend = this._upEventHandler;
     this.ontouchend = this.ontouchend.bind(this);
     /*
-    this.ontouchcancel = this.upEventHandler
+    this.ontouchcancel = this._upEventHandler
     this.ontouchcancel = this.ontouchcancel.bind(this)
     */
-    this.onmousedown = this.downEventHandler;
+    this.onmousedown = this._downEventHandler;
     this.onmousedown = this.onmousedown.bind(this);
 
-    this.onmouseup = this.upEventHandler;
+    this.onmouseup = this._upEventHandler;
     this.onmouseup = this.onmouseup.bind(this);
 
-    this.onclick = this.clickHandler;
+    this.onclick = this._clickHandler;
     this.onclick = this.onclick.bind(this);
 
     if (!this.infinite) {
-      this.copyItems(1);
-      this.centerItemByIndex(this.initItem);
+      this._copyItems(1);
+      this._centerItemByIndex(this.initItem);
     } else {
-      this.itemsInit();
+      this._itemsInit();
     }
-    window.addEventListener("resize", () => this.itemsInit() );
+    window.addEventListener("resize", () => this._itemsInit() );
 
     if (this.autoplay) {
       this.startAutoplay();

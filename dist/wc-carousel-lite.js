@@ -405,18 +405,24 @@ class Customcarousel extends HTMLElement {
 
     let elapsedTime = new Date().getTime() - this.startTime;
 
-    let speed = Math.abs(xShift/elapsedTime);
-    if(speed > 2) {
-      shiftInItems++;
+    let velocity = Math.abs(xShift/elapsedTime);
+    let touchVelocityLimit = 1.5; // pixels per millisecond
+    let mouseVelocityLimit = 3.0; // pixels per millisecond
+
+    if(velocity > touchVelocityLimit && event.changedTouches) {
+      shiftInItems++; // boost touch swipe if it's above the velocity limit
+    } else if( velocity  > mouseVelocityLimit) {
+      shiftInItems++; // boost mouse swipe if it's above the velocity limit
     }
 
-    let limit = 50;
-    if ( Math.abs(xShift) > limit && Math.abs(xShift) > Math.abs(yShift) ) {
+    // minimum x shift required to shift the item (pixels)
+    let minxShiftRequired = 30;
+    if ( Math.abs(xShift) > minxShiftRequired && Math.abs(xShift) > Math.abs(yShift) ) {
       event.preventDefault();
       this.preventClick = true;
-      if (xShift < -limit ) {
+      if (xShift < -minxShiftRequired ) {
         this.next(this._swipeReducer("l", shiftInItems));
-      } else if (xShift > limit ) {
+      } else if (xShift > minxShiftRequired ) {
         this.prev(this._swipeReducer("r", shiftInItems));
       }
     }

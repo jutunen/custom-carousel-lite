@@ -427,6 +427,15 @@ class Customcarousel extends HTMLElement {
       event.preventDefault();
     }
     this.preventClick = false;
+    this.focus()
+  }
+
+  _keyDownEventHandler (event) {
+    if(event.key === "ArrowRight") {
+      this.prev();
+    } else if(event.key === "ArrowLeft") {
+      this.next();
+    }
   }
 
   _init() {
@@ -452,6 +461,7 @@ class Customcarousel extends HTMLElement {
       this.initItemsWidth += this.originalEntries[i].offsetWidth + margin;
     }
 
+    this.tabIndex = 0;
     this.ontouchstart = this._downEventHandler;
     this.ontouchstart = this.ontouchstart.bind(this);
 
@@ -469,6 +479,9 @@ class Customcarousel extends HTMLElement {
 
     this.onclick = this._clickHandler;
     this.onclick = this.onclick.bind(this);
+
+    this.onkeydown = this._keyDownEventHandler
+    this.onkeydown = this.onkeydown.bind(this)
 
     if (!this.infinite) {
       this._copyItems(1);

@@ -6,11 +6,8 @@ class Customcarousel extends HTMLElement {
     this.isInitialized = false;
     this.item = "item";
     this.initItem = 0;
-    this.currentlyCentered;
     this.transitionDuration = 0;
     this.transitionType = "ease";
-    this.itemsCount;
-    this.initItemsWidth;
     this.interval = 1000;
     this.direction = "left";
     this.intervalId = null;
@@ -67,6 +64,7 @@ class Customcarousel extends HTMLElement {
     }
 
     if (!this.infinite) {
+      steps = this._swipeReducer("l",steps);
       if (
         (!this.centerBetween && this.currentlyCentered + (steps - 1) < this.itemsCount - 1) ||
         (this.centerBetween && this.currentlyCentered < this.itemsCount - 3)
@@ -91,6 +89,7 @@ class Customcarousel extends HTMLElement {
     }
 
     if (!this.infinite) {
+      steps = this._swipeReducer("r",steps);
       if (this.currentlyCentered < 0) {
         this._stopTransition();
       }
@@ -334,17 +333,12 @@ class Customcarousel extends HTMLElement {
   }
 
   _swipeReducer(dir, steps) {
-    if (this.infinite) {
-      return steps;
-    }
     let remaining;
     if (dir === "l") {
       remaining = this.originalEntries.length - (this.centerBetween ? 2 : 1) - this.currentlyCentered;
     }
-    else if (dir === "r") {
+    else{
       remaining = this.currentlyCentered;
-    } else {
-      return null
     }
 
     if (remaining < steps) {
@@ -421,9 +415,9 @@ class Customcarousel extends HTMLElement {
       event.preventDefault();
       this.preventClick = true;
       if (xShift < -minxShiftRequired ) {
-        this.next(this._swipeReducer("l", shiftInItems));
+        this.next(shiftInItems);
       } else if (xShift > minxShiftRequired ) {
-        this.prev(this._swipeReducer("r", shiftInItems));
+        this.prev(shiftInItems);
       }
     }
   }

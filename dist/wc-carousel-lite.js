@@ -64,13 +64,13 @@ class Customcarousel extends HTMLElement {
     }
 
     if (!this.infinite) {
-      steps = this._swipeReducer("l",steps);
       if (
         (!this.centerBetween && this.currentlyCentered + (steps - 1) < this.itemsCount - 1) ||
         (this.centerBetween && this.currentlyCentered < this.itemsCount - 3)
       ) {
         this._stopTransition();
       }
+      steps = this._swipeReducer("l",steps);
       this._centerItemByIndex(this.currentlyCentered + steps);
       return;
     }
@@ -89,10 +89,10 @@ class Customcarousel extends HTMLElement {
     }
 
     if (!this.infinite) {
-      steps = this._swipeReducer("r",steps);
       if (this.currentlyCentered < 0) {
         this._stopTransition();
       }
+      steps = this._swipeReducer("r",steps);
       this._centerItemByIndex(this.currentlyCentered - steps);
       return;
     }

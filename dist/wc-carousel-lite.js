@@ -58,42 +58,42 @@ class Customcarousel extends HTMLElement {
     }, 0);
   }
 
-  next(steps = 1) {
-    if (steps === 0) {
-      steps = 1;
+  next(shift = 1) {
+    if (shift === 0) {
+      shift = 1;
     }
 
     if (!this.infinite) {
       if (
-        (!this.centerBetween && this.currentlyCentered + (steps - 1) < this.itemsCount - 1) ||
+        (!this.centerBetween && this.currentlyCentered + (shift - 1) < this.itemsCount - 1) ||
         (this.centerBetween && this.currentlyCentered < this.itemsCount - 3)
       ) {
         this._stopTransition();
       }
-      steps = this._swipeReducer("l",steps);
-      this._centerItemByIndex(this.currentlyCentered + steps);
+      shift = this._shiftReducer("l",shift);
+      this._centerItemByIndex(this.currentlyCentered + shift);
       return;
     }
 
     if (parseInt(getComputedStyle(this.itemsContainer).left) < 0) {
       this._stopTransition();
-      this._moveItemFromLeftToRight(steps);
-      this._centerItemByIndex(this.currentlyCentered + steps);
-      this._updateOriginalIndex(steps);
+      this._moveItemFromLeftToRight(shift);
+      this._centerItemByIndex(this.currentlyCentered + shift);
+      this._updateOriginalIndex(shift);
     }
   }
 
-  prev(steps = 1) {
-    if (steps === 0) {
-      steps = 1;
+  prev(shift = 1) {
+    if (shift === 0) {
+      shift = 1;
     }
 
     if (!this.infinite) {
       if (this.currentlyCentered < 0) {
         this._stopTransition();
       }
-      steps = this._swipeReducer("r",steps);
-      this._centerItemByIndex(this.currentlyCentered - steps);
+      shift = this._shiftReducer("r",shift);
+      this._centerItemByIndex(this.currentlyCentered - shift);
       return;
     }
 
@@ -102,9 +102,9 @@ class Customcarousel extends HTMLElement {
       this.offsetWidth
     ) {
       this._stopTransition();
-      this._moveItemFromRightToLeft(steps);
-      this._centerItemByIndex(this.currentlyCentered - steps);
-      this._updateOriginalIndex(-steps);
+      this._moveItemFromRightToLeft(shift);
+      this._centerItemByIndex(this.currentlyCentered - shift);
+      this._updateOriginalIndex(-shift);
     }
   }
 
@@ -332,7 +332,7 @@ class Customcarousel extends HTMLElement {
     }
   }
 
-  _swipeReducer(dir, steps) {
+  _shiftReducer(dir, shift) {
     let remaining;
     if (dir === "l") {
       remaining = this.originalEntries.length - (this.centerBetween ? 2 : 1) - this.currentlyCentered;
@@ -341,10 +341,10 @@ class Customcarousel extends HTMLElement {
       remaining = this.currentlyCentered;
     }
 
-    if (remaining < steps) {
+    if (remaining < shift) {
       return remaining;
     }
-    return steps;
+    return shift;
   }
 
   _getItemIndex(element) {

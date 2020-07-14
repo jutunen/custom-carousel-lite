@@ -23,45 +23,6 @@
     karu.prev(n)
   }
 
-  function func_time(time) {
-    let karu = document.getElementById('karuselli')
-    karu.setTransitionTime(time)
-  }
-
-  function func_remove() {
-    let karu = document.getElementById('karuselli')
-    karu.testRemove()
-  }
-
-  function func_copy() {
-    let karu = document.getElementById('karuselli')
-    karu.copyItems()
-  }
-
-  function func_interval() {
-    window.setInterval(func_next, 2000);
-  }
-
-  function func_test_move() {
-    let karu = document.getElementById('karuselli')
-    karu.moveItemFromLeftToRight()
-  }
-
-  function func_stop_transition() {
-    let karu = document.getElementById('karuselli')
-    karu.stopTransition()
-  }
-
-  function func_log_left() {
-    let karu = document.getElementById('karuselli')
-    karu.logLeft()
-  }
-
-  function func_log_right() {
-    let karu = document.getElementById('karuselli')
-    karu.logRight()
-  }
-
   function func_stop_autoplay() {
     let karu = document.getElementById('karuselli')
     karu.stopAutoplay()
@@ -117,6 +78,11 @@
     height: 20px;
   }
 
+  .buttons {
+    margin: auto;
+    display: block;
+  }
+
   img {
     object-fit: cover;
   }
@@ -139,45 +105,45 @@
 <body>
 
   <wc-carousel-lite id="karuselli" init-item=1 transition-duration=1000 infinite>
-    <div class="item">
+    <div class="item" style="width:400px">
       <div class="number">1</div>
       <img src="https://placekitten.com/g/400/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:300px">
       <div class="number">2</div>
       <img src="https://placekitten.com/g/300/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:250px">
       <div class="number">3</div>
       <img src="https://placekitten.com/g/250/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:200px">
       <div class="number">4</div>
       <img src="https://placekitten.com/g/200/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:350px">
       <div class="number">5</div>
       <img src="https://placekitten.com/g/350/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:150px">
       <div class="number">6</div>
       <img src="https://placekitten.com/g/150/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:170px">
       <div class="number">7</div>
       <img src="https://placekitten.com/g/170/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:420px">
       <div class="number">8</div>
       <img src="https://placekitten.com/g/420/200">
     </div>
-    <div class="item">
+    <div class="item" style="width:290px">
       <div class="number">9</div>
       <a href="127.0.0.1" target="_blank">
         <img src="https://placekitten.com/g/290/200">
       </a>
     </div>
-    <div class="item">
+    <div class="item" style="width:320px">
       <div class="number">10</div>
       <img src="https://placekitten.com/g/320/200">
     </div>
@@ -188,31 +154,30 @@
     </div>
   </div>
 
-  <button onclick="func_next(1)" class="button" type="button">Next</button>
+<div class="buttons">
+  <button onclick="func_prev(3)" class="button" type="button">Prev - 2</button>
   <button onclick="func_prev(1)" class="button" type="button">Prev</button>
-  <button onclick="func_stop_transition()" class="button" type="button">Stop tr</button>
-  <button onclick="func_time(1)" class="button" type="button">Time 1</button>
-  <button onclick="func_time(2)" class="button" type="button">Time 2</button>
-  <button onclick="func_time(3)" class="button" type="button">Time 3</button>
-  <button onclick="func_time(5)" class="button" type="button">Time 5</button>
-  <button onclick="func_remove()" class="button" type="button">Remove</button>
-  <button onclick="func_copy()" class="button" type="button">Copy</button>
-  <button onclick="func_interval()" class="button" type="button">Interval</button>
-  <button onclick="func_test_move()" class="button" type="button">Test move</button>
   <button onclick="func_start_autoplay()" class="button" type="button">Start autoplay</button>
   <button onclick="func_stop_autoplay()" class="button" type="button">Stop autoplay</button>
-  <button onclick="func_center(0)" class="button" type="button">Center 0</button>
-  <button onclick="func_center(1)" class="button" type="button">Center 1</button>
-  <button onclick="func_center(2)" class="button" type="button">Center 2</button>
-  <button onclick="func_center(3)" class="button" type="button">Center 3</button>
-  <button onclick="func_center(8)" class="button" type="button">Center 8</button>
-  <button onclick="func_center(9)" class="button" type="button">Center 9</button>
-  <button onclick="func_next(3)" class="button" type="button">Next</button>
-  <button onclick="func_prev(3)" class="button" type="button">Prev</button>
+  <button onclick="func_next(1)" class="button" type="button">Next</button>
+  <button onclick="func_next(3)" class="button" type="button">Next + 2</button>
+</div>
+<div class="buttons">
+  <button onclick="func_center(0)" class="button" type="button">Go to 1</button>
+  <button onclick="func_center(1)" class="button" type="button">Go to 2</button>
+  <button onclick="func_center(2)" class="button" type="button">Go to 3</button>
+  <button onclick="func_center(3)" class="button" type="button">Go to 4</button>
+  <button onclick="func_center(4)" class="button" type="button">Go to 5</button>
+  <button onclick="func_center(5)" class="button" type="button">Go to 6</button>
+  <button onclick="func_center(6)" class="button" type="button">Go to 7</button>
+  <button onclick="func_center(7)" class="button" type="button">Go to 8</button>
+  <button onclick="func_center(8)" class="button" type="button">Go to 9</button>
+  <button onclick="func_center(9)" class="button" type="button">Go to 10</button>
+</div>
 
   <div class="space"></div>
 
-  <wc-carousel-lite id="karuselli_2" init-item=4 transition-duration=1000>
+  <!--wc-carousel-lite id="karuselli_2" init-item=4 transition-duration=1000>
     <div class="item">
       <div class="number">1</div>
       <img src="https://placekitten.com/g/400/200">
@@ -259,7 +224,7 @@
   <div class="mittari">
     <div class="puolikas">
     </div>
-  </div>
+  </div-->
 
 </body>
 

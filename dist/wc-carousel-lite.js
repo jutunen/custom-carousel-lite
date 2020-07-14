@@ -10,7 +10,9 @@ class Customcarousel extends HTMLElement {
     this.transitionType = "ease";
     this.interval = 1000;
     this.direction = "left";
+    this.autoPlayIntervalId = null;
     this.intervalId = null;
+    this.carouselImages = [];
   }
 
   static get observedAttributes() {
@@ -229,6 +231,14 @@ class Customcarousel extends HTMLElement {
 
   _itemsInit() {
 
+    let style, margin;
+    this.initItemsWidth = 0;
+    for (let i = 0; i < this.originalEntries.length; i++) {
+      style = getComputedStyle(this.originalEntries[i]);
+      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+      this.initItemsWidth += this.originalEntries[i].offsetWidth + margin;
+    }
+
     if (!this.infinite) {
       this._centerItemByIndex(this.currentlyCentered);
       return;
@@ -319,14 +329,14 @@ class Customcarousel extends HTMLElement {
   }
 
   stopAutoplay() {
-    clearInterval(this.intervalId);
-    this.intervalId = null;
+    clearInterval(this.autoPlayIntervalId);
+    this.autoPlayIntervalId = null;
   }
 
   startAutoplay() {
-    if (this.intervalId === null) {
+    if (this.autoPlayIntervalId === null) {
       this._autoplayHandler();
-      this.intervalId = setInterval(() => {
+      this.autoPlayIntervalId = setInterval(() => {
         this._autoplayHandler();
       }, this.interval + this.transitionDuration);
     }
@@ -438,6 +448,31 @@ class Customcarousel extends HTMLElement {
     }
   }
 
+  _checkImageLoading () {
+    if(this.carouselImages.every( x => x.complete === true)) {
+      console.log("All images loaded!");
+      clearInterval(this.intervalId);
+      this._postInit();
+      return true;
+    }
+    console.log("All images NOT loaded!");
+    return false;
+  }
+
+  _postInit () {
+    if (!this.infinite) {
+      this._copyItems(1);
+      this._centerItemByIndex(this.initItem);
+    } else {
+      this._itemsInit();
+    }
+    window.addEventListener("resize", () => this._itemsInit() );
+
+    if (this.autoplay) {
+      this.startAutoplay();
+    }
+  }
+
   _init() {
     this.style.backgroundColor = "lightgray";
     this.style.display = "flex";
@@ -447,19 +482,34 @@ class Customcarousel extends HTMLElement {
     this.itemsContainer.style.display = "inline-flex";
     this.itemsContainer.style.position = "relative";
     this.itemsContainer.overflow = "hidden";
+    this.carouselImages = Array.from(this.querySelectorAll("img"));
     this.originalEntries = this.querySelectorAll("." + this.item);
 
     if (this.initItem + 1 > this.originalEntries.length) {
       throw "centered item value too big";
     }
 
-    let style, margin;
-    this.initItemsWidth = 0;
+/*
+    let allWidthsDefined = this.originalEntries.every( x => {
+      let style = getComputedStyle(this.originalEntries[i]);
+      if(parseFloat(style.width) > 0) {
+        return true;
+      }
+    });
+*/
+
+    let style, allWidthsDefined = true;
     for (let i = 0; i < this.originalEntries.length; i++) {
       style = getComputedStyle(this.originalEntries[i]);
-      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-      this.initItemsWidth += this.originalEntries[i].offsetWidth + margin;
+      if(parseFloat(style.width) === 0) {
+        allWidthsDefined = false;
+        break;
+      }
     }
+
+    console.log("allWidthsDefined: " + allWidthsDefined);
+
+    //this.carouselImages.forEach(x => console.log(x.complete));
 
     this.tabIndex = 0;
     this.ontouchstart = this._downEventHandler;
@@ -483,16 +533,12 @@ class Customcarousel extends HTMLElement {
     this.onkeydown = this._keyDownEventHandler
     this.onkeydown = this.onkeydown.bind(this)
 
-    if (!this.infinite) {
-      this._copyItems(1);
-      this._centerItemByIndex(this.initItem);
+    if(allWidthsDefined) {
+      this._postInit();
     } else {
-      this._itemsInit();
-    }
-    window.addEventListener("resize", () => this._itemsInit() );
-
-    if (this.autoplay) {
-      this.startAutoplay();
+      if(!this._checkImageLoading()) {
+        this.intervalId = setInterval(() => { this._checkImageLoading() }, 100);
+      }
     }
   }
 }

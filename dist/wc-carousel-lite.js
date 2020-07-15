@@ -122,11 +122,11 @@ class Customcarousel extends HTMLElement {
     }
     let style, margin, sum = 0;
     for (let i = 0; i < index; i++) {
-      style = window.getComputedStyle(entries[i]);
+      style = getComputedStyle(entries[i]);
       margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
       sum += entries[i].offsetWidth + margin;
     }
-    let initLeftMargin = parseFloat(window.getComputedStyle(entries[0]).marginLeft);
+    let initLeftMargin = parseFloat(getComputedStyle(entries[0]).marginLeft);
     let itemWidthHalf = this.centerBetween
       ? entries[index].offsetWidth
       : entries[index].offsetWidth / 2;
@@ -173,6 +173,7 @@ class Customcarousel extends HTMLElement {
   }
 
   _copyItems(factor) {
+
     while (this.itemsContainer.firstChild) {
       this.itemsContainer.firstChild.remove();
     }
@@ -197,7 +198,7 @@ class Customcarousel extends HTMLElement {
 
   _getItemWidth (item) {
     let style, margin;
-    style = window.getComputedStyle(item);
+    style = getComputedStyle(item);
     margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
     let width = item.offsetWidth;
     return width + margin;
@@ -230,14 +231,6 @@ class Customcarousel extends HTMLElement {
   }
 
   _itemsInit() {
-
-    let style, margin;
-    this.initItemsWidth = 0;
-    for (let i = 0; i < this.originalEntries.length; i++) {
-      style = getComputedStyle(this.originalEntries[i]);
-      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
-      this.initItemsWidth += this.originalEntries[i].offsetWidth + margin;
-    }
 
     if (!this.infinite) {
       this._centerItemByIndex(this.currentlyCentered);
@@ -460,6 +453,15 @@ class Customcarousel extends HTMLElement {
   }
 
   _postInit () {
+
+    let style, margin;
+    this.initItemsWidth = 0;
+    for (let i = 0; i < this.originalEntries.length; i++) {
+      style = getComputedStyle(this.originalEntries[i]);
+      margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+      this.initItemsWidth += this.originalEntries[i].offsetWidth + margin;
+    }
+
     if (!this.infinite) {
       this._copyItems(1);
       this._centerItemByIndex(this.initItem);

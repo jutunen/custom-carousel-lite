@@ -3,7 +3,6 @@
 class Customcarousel extends HTMLElement {
   constructor() {
     super();
-    this.isInitialized = false;
     this.item = "item";
     this.initItem = 0;
     this.transitionDuration = 0;
@@ -29,7 +28,18 @@ class Customcarousel extends HTMLElement {
     ];
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    while (this.itemsContainer.firstChild) {
+      this.itemsContainer.firstChild.remove();
+    }
+    for (let i = 0; i < this.originalEntries.length; i++) {
+      this.appendChild(this.originalEntries[i].cloneNode(true));
+    }
+    this.originalEntries = [];
+    this.currentFactor = null;
+    this.stopAutoplay();
+    this.connected = false;
+  }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === "infinite") {
@@ -58,6 +68,7 @@ class Customcarousel extends HTMLElement {
     setTimeout(() => {
       this._init();
     }, 0);
+    this.connected = true;
   }
 
   next(shift = 1) {
@@ -232,6 +243,10 @@ class Customcarousel extends HTMLElement {
 
   _itemsInit() {
 
+    if(!this.connected) {
+      return;
+    }
+
     if (!this.infinite) {
       this._centerItemByIndex(this.currentlyCentered);
       return;
@@ -248,6 +263,8 @@ class Customcarousel extends HTMLElement {
     if (factor % 2) {
       factor++;
     }
+
+    console.log("factor " + factor);
 
     if (factor !== this.currentFactor) {
       this._copyItems(factor);
@@ -468,37 +485,39 @@ class Customcarousel extends HTMLElement {
     } else {
       this._itemsInit();
     }
-    window.addEventListener("resize", () => this._itemsInit() );
 
     if (this.autoplay) {
+      console.log("Starting autoplay!");
       this.startAutoplay();
     }
   }
 
   _init() {
-    this.style.backgroundColor = "lightgray";
-    this.style.display = "flex";
-    this.style.overflow = "hidden";
 
-    this.itemsContainer = this.appendChild(document.createElement("div"));
-    this.itemsContainer.style.display = "inline-flex";
-    this.itemsContainer.style.position = "relative";
-    this.itemsContainer.overflow = "hidden";
+    if(!this.isInitialized) {
+      console.log("Initializing...");
+      this.style.backgroundColor = "lightgray";
+      this.style.display = "flex";
+      this.style.overflow = "hidden";
+      this.itemsContainer = this.appendChild(document.createElement("div"));
+      this.itemsContainer.style.display = "inline-flex";
+      this.itemsContainer.style.position = "relative";
+      this.itemsContainer.overflow = "hidden";
+    }
+
     this.carouselImages = Array.from(this.querySelectorAll("img"));
     this.originalEntries = this.querySelectorAll("." + this.item);
+
+    console.log("this.initItem " + this.initItem);
+    console.log("this.originalEntries.length " + this.originalEntries.length);
+
+    if (this.originalEntries.length === 0) {
+      throw "couldn't find any children with " + this.item + " class";
+    }
 
     if (this.initItem + 1 > this.originalEntries.length) {
       throw "centered item value too big";
     }
-
-/*
-    let allWidthsDefined = this.originalEntries.every( x => {
-      let style = getComputedStyle(this.originalEntries[i]);
-      if(parseFloat(style.width) > 0) {
-        return true;
-      }
-    });
-*/
 
     let style, allWidthsDefined = true;
     for (let i = 0; i < this.originalEntries.length; i++) {
@@ -513,28 +532,6 @@ class Customcarousel extends HTMLElement {
 
     //this.carouselImages.forEach(x => console.log(x.complete));
 
-    this.tabIndex = 0;
-    this.ontouchstart = this._downEventHandler;
-    this.ontouchstart = this.ontouchstart.bind(this);
-
-    this.ontouchend = this._upEventHandler;
-    this.ontouchend = this.ontouchend.bind(this);
-    /*
-    this.ontouchcancel = this._upEventHandler
-    this.ontouchcancel = this.ontouchcancel.bind(this)
-    */
-    this.onmousedown = this._downEventHandler;
-    this.onmousedown = this.onmousedown.bind(this);
-
-    this.onmouseup = this._upEventHandler;
-    this.onmouseup = this.onmouseup.bind(this);
-
-    this.onclick = this._clickHandler;
-    this.onclick = this.onclick.bind(this);
-
-    this.onkeydown = this._keyDownEventHandler
-    this.onkeydown = this.onkeydown.bind(this)
-
     if(allWidthsDefined) {
       this._postInit();
     } else {
@@ -542,6 +539,34 @@ class Customcarousel extends HTMLElement {
         this.intervalId = setInterval(() => { this._checkImageLoading() }, 100);
       }
     }
+
+    if(!this.isInitialized) {
+      this.tabIndex = 0;
+      this.ontouchstart = this._downEventHandler;
+      this.ontouchstart = this.ontouchstart.bind(this);
+
+      this.ontouchend = this._upEventHandler;
+      this.ontouchend = this.ontouchend.bind(this);
+      /*
+      this.ontouchcancel = this._upEventHandler
+      this.ontouchcancel = this.ontouchcancel.bind(this)
+      */
+      this.onmousedown = this._downEventHandler;
+      this.onmousedown = this.onmousedown.bind(this);
+
+      this.onmouseup = this._upEventHandler;
+      this.onmouseup = this.onmouseup.bind(this);
+
+      this.onclick = this._clickHandler;
+      this.onclick = this.onclick.bind(this);
+
+      this.onkeydown = this._keyDownEventHandler
+      this.onkeydown = this.onkeydown.bind(this)
+
+      window.addEventListener("resize", () => this._itemsInit() );
+    }
+
+    this.isInitialized = true;
   }
 }
 

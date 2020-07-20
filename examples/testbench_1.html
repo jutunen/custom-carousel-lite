@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script defer src='../dist/wc-carousel-lite.js'></script>
+</head>
+
+<script>
+
+let carousel;
+
+function func_create_carousel() {
+  carousel = document.createElement("wc-carousel-lite");
+  carousel.transitionDuration = 1000;
+  carousel.infinite = true;
+  carousel.autoplay = true;
+}
+
+function func_add_image( src ) {
+  let imgElem = document.createElement("img");
+  imgElem.setAttribute("src", src);
+  imgElem.setAttribute("width", 300);
+  imgElem.classList.add("item");
+  carousel.appendChild(imgElem);
+}
+
+function func_add_images( src ) {
+  func_add_image('../images/oulu_1.jpg');
+  func_add_image('../images/oulu_2.jpg');
+  func_add_image('../images/oulu_3.jpg');
+  func_add_image('../images/oulu_4.jpg');
+  func_add_image('../images/oulu_5.jpg');
+}
+
+function func_add_carousel() {
+  let container = document.getElementById("container");
+  container.appendChild(carousel);
+}
+
+function func_remove_carousel() {
+  carousel.remove();
+}
+
+
+</script>
+
+<style>
+  body {
+    background-color: gray;
+  }
+
+  wc-carousel-lite {
+    width: 100%;
+    margin: auto;
+    height: 200px;
+  }
+
+  #karuselli_2 {
+    width: 500px;
+    margin: auto;
+  }
+
+  .item {
+    display: inline;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+  .buttons {
+    margin: auto;
+    display: block;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  .space {
+    height: 200px;
+  }
+
+  .number {
+    position: absolute;
+    font-size: 100px;
+    color: lightgreen;
+    margin: 10px;
+    font-weight: bold;
+    opacity: 0.7;
+  }
+
+</style>
+
+<body>
+
+<div class="buttons">
+  <button onclick="func_create_carousel()" class="button" type="button">Create carousel</button>
+  <button onclick="func_add_image('../images/oulu_1.jpg')" class="button" type="button">Add image 1</button>
+  <button onclick="func_add_image('../images/oulu_2.jpg')" class="button" type="button">Add image 2</button>
+  <button onclick="func_add_image('../images/oulu_3.jpg')" class="button" type="button">Add image 3</button>
+  <button onclick="func_add_image('../images/oulu_4.jpg')" class="button" type="button">Add image 4</button>
+  <button onclick="func_add_image('../images/oulu_5.jpg')" class="button" type="button">Add image 5</button>
+  <button onclick="func_add_images()" class="button" type="button">Add all images</button>
+  <button onclick="func_add_carousel()" class="button" type="button">Add carousel to DOM</button>
+  <button onclick="func_remove_carousel()" class="button" type="button">Remove carousel from DOM</button>
+</div>
+<div class="buttons">
+</div>
+<div class="space">
+</div>
+<div id="container">
+</div>
+
+</body>
+</html>

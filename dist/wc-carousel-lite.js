@@ -37,7 +37,7 @@ class Customcarousel extends HTMLElement {
     }
     this.originalEntries = [];
     this.currentFactor = null;
-    this.stopAutoplay();
+    this.stop();
     this.connected = false;
   }
 
@@ -148,7 +148,7 @@ class Customcarousel extends HTMLElement {
     this.currentlyCentered = index;
   }
 
-  gotoIndex(index) {
+  goto(index) {
     if (index > this.originalEntries.length - 1) {
       return;
     }
@@ -279,7 +279,7 @@ class Customcarousel extends HTMLElement {
       this.currentFactor = factor;
       this.originalIndex = index;
     } else {
-      this.gotoIndex(this.originalIndex);
+      this.goto(this.originalIndex);
     }
   }
 
@@ -338,12 +338,12 @@ class Customcarousel extends HTMLElement {
     }
   }
 
-  stopAutoplay() {
+  stop() {
     clearInterval(this.autoPlayIntervalId);
     this.autoPlayIntervalId = null;
   }
 
-  startAutoplay() {
+  play() {
     if (this.autoPlayIntervalId === null) {
       this._autoplayHandler();
       this.autoPlayIntervalId = setInterval(() => {
@@ -488,7 +488,7 @@ class Customcarousel extends HTMLElement {
 
     if (this.autoplay) {
       console.log("Starting autoplay!");
-      this.startAutoplay();
+      this.play();
     }
   }
 

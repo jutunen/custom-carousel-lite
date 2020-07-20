@@ -126,6 +126,7 @@ class Customcarousel extends HTMLElement {
   }
 
   _centerItemByIndex(index) {
+
     let center = this.offsetWidth / 2;
     let entries = this.itemsContainer.querySelectorAll("." + this.item);
     if ((this.centerBetween && index === entries.length - 1) || !entries[index]) {
@@ -137,7 +138,8 @@ class Customcarousel extends HTMLElement {
       margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
       sum += entries[i].offsetWidth + margin;
     }
-    nextMarginMiddle = parseFloat(style.marginRight);    
+    nextMarginMiddle = style ? parseFloat(style.marginRight) : 0;
+
     let initLeftMargin = parseFloat(getComputedStyle(entries[0]).marginLeft);
     let itemWidthHalf = this.centerBetween
       ? entries[index].offsetWidth + nextMarginMiddle

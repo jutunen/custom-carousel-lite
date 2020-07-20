@@ -131,15 +131,16 @@ class Customcarousel extends HTMLElement {
     if ((this.centerBetween && index === entries.length - 1) || !entries[index]) {
       return;
     }
-    let style, margin, sum = 0;
+    let nextMarginMiddle, style, margin, sum = 0;
     for (let i = 0; i < index; i++) {
       style = getComputedStyle(entries[i]);
       margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
       sum += entries[i].offsetWidth + margin;
     }
+    nextMarginMiddle = parseFloat(style.marginRight);    
     let initLeftMargin = parseFloat(getComputedStyle(entries[0]).marginLeft);
     let itemWidthHalf = this.centerBetween
-      ? entries[index].offsetWidth
+      ? entries[index].offsetWidth + nextMarginMiddle
       : entries[index].offsetWidth / 2;
     let left = center - (sum + initLeftMargin + itemWidthHalf);
     this.itemsContainer.style.transition = "left " + this.transitionDuration + "ms";

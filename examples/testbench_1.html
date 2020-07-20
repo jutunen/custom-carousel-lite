@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script defer src='../dist/wc-carousel-lite.js'></script>
+  <script defer src='../dist/wc-carousel-lite.min.js'></script>
 </head>
 
 <script>
@@ -15,6 +15,7 @@ function func_create_carousel() {
   carousel.transitionDuration = 1000;
   carousel.infinite = true;
   carousel.autoplay = true;
+  carousel.centerBetween = true;
 }
 
 function func_add_image( src ) {
@@ -40,6 +41,30 @@ function func_add_carousel() {
 
 function func_remove_carousel() {
   carousel.remove();
+}
+
+function func_next() {
+  carousel.next();
+}
+
+function func_prev() {
+  carousel.prev();
+}
+
+function func_play() {
+  carousel.play();
+}
+
+function func_stop() {
+  carousel.stop();
+}
+
+function func_center_between() {
+  carousel.centerBetween = true;
+}
+
+function func_center_middle() {
+  carousel.centerBetween = false;
 }
 
 
@@ -105,6 +130,12 @@ function func_remove_carousel() {
   <button onclick="func_remove_carousel()" class="button" type="button">Remove carousel from DOM</button>
 </div>
 <div class="buttons">
+  <button onclick="func_prev()" class="button" type="button">Prev</button>
+  <button onclick="func_play()" class="button" type="button">Play</button>
+  <button onclick="func_stop()" class="button" type="button">Stop</button>
+  <button onclick="func_next()" class="button" type="button">Next</button>
+  <button onclick="func_center_between()" class="button" type="button">Center between</button>
+  <button onclick="func_center_middle()" class="button" type="button">Center middle</button>
 </div>
 <div class="space">
 </div>

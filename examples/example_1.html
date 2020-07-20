@@ -3,14 +3,14 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script defer src='../dist/wc-carousel-lite.js'></script>
+  <script defer src='../dist/wc-carousel-lite.min.js'></script>
 </head>
 
 <script>
 
   function func_center(index) {
     let karu = document.getElementById('karuselli')
-    karu.gotoIndex(index)
+    karu.goto(index)
   }
 
   function func_next(n) {
@@ -25,12 +25,12 @@
 
   function func_stop_autoplay() {
     let karu = document.getElementById('karuselli')
-    karu.stopAutoplay()
+    karu.stop()
   }
 
   function func_start_autoplay() {
     let karu = document.getElementById('karuselli')
-    karu.startAutoplay()
+    karu.play()
   }
 
   function func_next_2(n) {
@@ -45,12 +45,12 @@
 
   function func_stop_autoplay_2() {
     let karu = document.getElementById('karuselli_2')
-    karu.stopAutoplay()
+    karu.stop()
   }
 
   function func_start_autoplay_2() {
     let karu = document.getElementById('karuselli_2')
-    karu.startAutoplay()
+    karu.play()
   }
 
 </script>
@@ -60,7 +60,7 @@
     background-color: gray;
   }
 
-  custom-carousel, #mittari {
+  wc-carousel-lite, #mittari {
     width: 100%;
     margin: auto;
     height: 200px;

@@ -33,3 +33,77 @@ HTML example:
         </div>
      </wc-carousel-lite>    
  ```
+
+## Including the component to an HTML file
+
+1. Import polyfill, this is not needed for modern browsers:
+
+    ```html
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/custom-elements/1.4.1/custom-elements.min.js"></script>
+    ```
+
+2. Import custom element:
+
+    ```html
+    <script defer src='wc-carousel-lite.min.js'></script>
+    ```
+
+3. Start using it!
+
+    ```html
+     <wc-carousel-lite>
+        <div class='heading'> Menu </div>
+        <div class='item'> 1st item </div>
+     </wc-carousel-lite>    
+    ```
+## Including the component from NPM
+
+1. Install and import polyfill, this is not needed for modern browsers:
+
+   See https://www.npmjs.com/package/@webcomponents/custom-elements
+
+2. Install wc-menu-wrapper NPM package:
+
+    ```console
+    npm i @vanillawc/wc-carousel-lite
+    ```
+
+3. Import custom element:
+
+    ```javascript
+    import '@vanillawc/wc-carousel-lite'
+    ```
+
+4. Start using it:
+
+   ```javascript
+   var menu = document.createElement('wc-carousel-lite')
+   var heading = document.createElement('div')
+   var item = document.createElement('div')
+   heading.innerHTML = 'Menu'
+   item.innerHTML = 'Item 1'
+   heading.classList.add('heading')
+   item.classList.add('item')
+   menu.appendChild(heading)
+   menu.appendChild(item)   
+   document.body.appendChild(menu)
+   ```
+
+
+## Attributes
+
+### mode
+
+Defines how the menu can be toggled.
+
+Menu can be toggled by clicking or hovering on it.
+
+Attribute value must be either 'click' or 'hover'.
+
+Default mode is 'click'.
+
+HTML example:
+
+```html
+<wc-carousel-lite mode='hover'>
+```

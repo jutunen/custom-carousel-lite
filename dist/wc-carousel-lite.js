@@ -1,4 +1,5 @@
 // Note: this.originalIndex is applicable only when this.infinite is truthy
+// Dots / Arrows
 
 class Customcarousel extends HTMLElement {
   constructor() {
@@ -255,7 +256,7 @@ class Customcarousel extends HTMLElement {
       return;
     }
 
-    let factor = parseInt((2.5 * this.offsetWidth) / this.initItemsWidth);
+    let factor = parseInt((2.75 * this.offsetWidth) / this.initItemsWidth);
 
     if (this.originalEntries.length < 3) {
       factor += 3;
@@ -322,6 +323,7 @@ class Customcarousel extends HTMLElement {
         }
       }
     }
+    console.log("this.originalIndex " + this.originalIndex);
   }
 
   _autoplayHandler() {

@@ -14,7 +14,7 @@ Component features include:
 
 
 ## Usage
-- create slide item containers by assigning item classes to them
+- create slide item containers by assigning item class to them
 - add content inside the containers
 - wrap the item containers inside a carousel component
 
@@ -23,16 +23,37 @@ HTML example:
  ```html
      <wc-carousel-lite>
         <div class='item' style="width:200px">
-          <img src="./myimage_1">
+          <img src="./myimage_1.png">
         </div>
         <div class='item' style="width:100px">
-          <img src="./myimage_2">
+          <img src="./myimage_2.png">
         </div>
         <div class='item' style="width:300px">
-          <img src="./myimage_3">
+          <img src="./myimage_3.png">
         </div>
      </wc-carousel-lite>    
  ```
+ Styling the carousel:
+
+ ```css
+   wc-carousel-lite {
+    height: 200px;
+    width: 500px;
+    margin: auto;
+  }
+```
+
+2nd HTML example, using images directly as items:
+
+ ```html
+     <wc-carousel-lite>
+       <img src="./myimage_1.png" class="item" width="200">
+       <img src="./myimage_2.png" class="item" width="100">
+       <img src="./myimage_3.png" class="item" width="300">
+     </wc-carousel-lite>    
+ ```
+
+#### Note! Carousel item widths should always be set explicitly.
 
 ## Including the component to an HTML file
 
@@ -52,8 +73,9 @@ HTML example:
 
     ```html
      <wc-carousel-lite>
-        <div class='heading'> Menu </div>
-        <div class='item'> 1st item </div>
+       <img src="https://placekitten.com/g/400/200" class="item" width="400">
+       <img src="https://placekitten.com/g/300/200" class="item" width="300">
+       <img src="https://placekitten.com/g/250/200" class="item" width="250">      
      </wc-carousel-lite>    
     ```
 ## Including the component from NPM
@@ -77,16 +99,25 @@ HTML example:
 4. Start using it:
 
    ```javascript
-   var menu = document.createElement('wc-carousel-lite')
-   var heading = document.createElement('div')
-   var item = document.createElement('div')
-   heading.innerHTML = 'Menu'
-   item.innerHTML = 'Item 1'
-   heading.classList.add('heading')
-   item.classList.add('item')
-   menu.appendChild(heading)
-   menu.appendChild(item)   
-   document.body.appendChild(menu)
+   let carousel = document.createElement("wc-carousel-lite");
+   carousel.transitionDuration = 1000;
+   carousel.infinite = true;
+   carousel.autoplay = true;
+   carousel.centerBetween = true;
+   
+   let img = document.createElement("img");
+   img.setAttribute("src", "./myimage_1.png");
+   img.setAttribute("width", 300);
+   img.classList.add("item");
+   carousel.appendChild(img);   
+   
+   let img_2 = document.createElement("img");
+   img_2.setAttribute("src", "./myimage_2.png");
+   img_2.setAttribute("width", 300);
+   img_2.classList.add("item");
+   carousel.appendChild(img_2);
+   
+   document.body.appendChild(carousel);
    ```
 
 

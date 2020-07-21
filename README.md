@@ -11,12 +11,13 @@ Component features include:
 - content agnostic: slide items should be able to contain any HTML
 - responsive: adapts to different screen widths automatically
 - infinite looping of slide items
-
+- autoplay
 
 ## Usage
 - create slide item containers by assigning item class to them
 - add content inside the containers
 - wrap the item containers inside a carousel component
+- set necessary carousel style (width, height)
 
 HTML example:
 
@@ -53,7 +54,7 @@ HTML example:
      </wc-carousel-lite>    
  ```
 
-#### Note! Carousel item widths should always be set explicitly.
+**Note! Carousel item widths should always be set explicitly.**
 
 ## Including the component to an HTML file
 
@@ -230,3 +231,85 @@ HTML example:
 ```html
 <wc-carousel-lite transition-type='linear'>
 ```
+
+### item
+
+Defines new item class name, if the default class name 'item' can not be used.
+
+## Methods
+
+Methods can not be used before the carousel is appended to DOM.
+
+### next( shift )
+
+Shifts items to left. Parameter shift is a number indicating the number of items to be shifted. Parameter default value is 1.
+
+### prev( shift )
+
+Shifts items to right. Parameter shift is a number indicating the number of items to be shifted. Parameter default value is 1.
+
+### goto( index )
+
+Centers item according to index. Parameter index is a number indicating the item ordinal number beginning from zero.
+
+### play
+
+Starts autoplay.
+
+### stop
+
+Stops autoplay.
+
+## Setting attributes dynamically
+
+All attributes should be set before the carousel is appended to DOM.
+
+Example:
+
+   ```javascript
+   let carousel = document.createElement("wc-carousel-lite");
+   carousel.initItem = 2;
+   carousel.transitionType = 'linear';
+   carousel.transitionDuration = 1000;
+   carousel.infinite = true;
+   carousel.autoplay = true;
+   carousel.centerBetween = true;
+   carousel.direction = right;
+   
+   // Add items here
+   
+   // Finally append to DOM:
+   document.body.appendChild(carousel);
+   ```
+   
+## Adding and removing items dynamically
+   
+Carousel component does not have methods to add/remove items dynamically.
+   
+To add/remove items dynamically, do the following:
+   
+1. Remove carousel from DOM
+2. Add/remove items from the carousel
+3. Append carousel back to DOM
+
+## Building
+
+Unminified scripts in the dist folder can be used and modified as such, there are no build scripts available for them.
+
+Building is done by executing the minifier script minify.cmd, which is a Linux bash shell script.
+
+Minify.cmd can be found from dist folder.
+
+Building (minifying) requires [terser](https://github.com/terser/terser) command line tool to be installed. It can be installed with following command:
+```console
+ npm install terser -g
+   ```
+## Contributing
+
+Questions, suggestions and bug reports are welcome. Safari testing would be nice.
+
+## License
+
+Copyright (c) 2020 Jussi Utunen
+
+Licensed under the MIT License

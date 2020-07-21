@@ -5,7 +5,7 @@ A web component that wraps HTML elements and forms a carousel slider out of them
 Live demo available [here.](http://51.38.51.120/wcmenuwrapper/)
 
 ## Features
-Wc-carousel lite is a standalone vanilla JS web component that does not use shadow DOM.
+Wc-carousel-lite is a standalone vanilla JS web component that does not use shadow DOM.
 
 Component features include:
 - content agnostic: slide items should be able to contain any HTML
@@ -123,18 +123,110 @@ HTML example:
 
 ## Attributes
 
-### mode
+### infinite
 
-Defines how the menu can be toggled.
+If defined, the carousel will be in infinite looping mode.
 
-Menu can be toggled by clicking or hovering on it.
+By default, the carousel will not be in infinite looping mode.
 
-Attribute value must be either 'click' or 'hover'.
-
-Default mode is 'click'.
+This attribute is a boolean attribute, also known as a valueless attribute.
 
 HTML example:
 
 ```html
-<wc-carousel-lite mode='hover'>
+<wc-carousel-lite infinite>
+```
+
+### init-item
+
+Defines which item will be initially centered to be visible to the use.
+
+Item numbering begins from zero.
+
+Default value is 0.
+
+HTML example:
+
+```html
+<wc-carousel-lite init-item=1>
+```
+
+### center-between
+
+If defined, the carousel view will be centered between the items. (even centering)
+
+By default, the view will be centered to the middle of the item. (odd centering)
+
+This attribute is a boolean attribute, also known as a valueless attribute.
+
+HTML example:
+
+```html
+<wc-carousel-lite center-between>
+```
+
+### autoplay
+
+If defined, the carousel will automatically shift items.
+
+By default, the the carousel will not shift items automatically.
+
+This attribute is a boolean attribute, also known as a valueless attribute.
+
+HTML example:
+
+```html
+<wc-carousel-lite autoplay>
+```
+
+### interval
+
+Defines autoplay shift interval in milliseconds.
+
+Default value is 1000 ms.
+
+HTML example:
+
+```html
+<wc-carousel-lite interval=2000>
+```
+
+### direction
+
+Defines autoplay shift direction.
+
+Attribute value must be either 'right' or 'left'
+
+Default value is left (items will shift to left).
+
+HTML example:
+
+```html
+<wc-carousel-lite direction='right'>
+```
+
+### transition-duration
+
+Defines item shift duration in milliseconds.
+
+Default value is 0 ms, meaning that that the shift takes place instantly.
+
+HTML example:
+
+```html
+<wc-carousel-lite transition-duration=1000>
+```
+
+### transition-type
+
+Defines the speed curve of the item shift transition effect.
+
+For possible attribute values, see https://www.w3schools.com/cssref/css3_pr_transition-timing-function.asp
+
+Default value is 'ease'.
+
+HTML example:
+
+```html
+<wc-carousel-lite transition-type='linear'>
 ```

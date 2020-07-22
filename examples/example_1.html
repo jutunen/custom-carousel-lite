@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script defer src='../dist/wc-carousel-lite.min.js'></script>
+  <script defer src='../dist/wc-carousel-lite.js'></script>
 </head>
 
 <script>
@@ -53,6 +53,26 @@
     karu.play()
   }
 
+  function func_next_3(n) {
+    let karu = document.getElementById('karuselli_3')
+    karu.next(n)
+  }
+
+  function func_prev_3(n) {
+    let karu = document.getElementById('karuselli_3')
+    karu.prev(n)
+  }
+
+  function func_stop_autoplay_3() {
+    let karu = document.getElementById('karuselli_3')
+    karu.stop()
+  }
+
+  function func_start_autoplay_3() {
+    let karu = document.getElementById('karuselli_3')
+    karu.play()
+  }
+
 </script>
 
 <style>
@@ -72,7 +92,7 @@
   }
 
   .item {
-    display: inline;
+    /*display: inline;*/
     margin-right: 90px;
     margin-left: 90px;
     /*box-sizing: border-box;*/
@@ -91,8 +111,13 @@
   }
 
   .buttons {
+    width: 600px;
     margin: auto;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   img {
@@ -116,7 +141,7 @@
 
 <body>
 
-  <wc-carousel-lite id="karuselli" init-item=1 transition-duration=1000 infinite>
+  <wc-carousel-lite id="karuselli" init-item=5 transition-duration=1000 infinite center-between>
     <div class="item" style="width:400px">
       <div class="number">1</div>
       <img src="https://placekitten.com/g/400/200">
@@ -167,12 +192,12 @@
   </div>
 
 <div class="buttons">
-  <button onclick="func_prev(3)" class="button" type="button">Prev - 2</button>
+  <button onclick="func_prev(3)" class="button" type="button">Prev(3)</button>
   <button onclick="func_prev(1)" class="button" type="button">Prev</button>
   <button onclick="func_start_autoplay()" class="button" type="button">Start autoplay</button>
   <button onclick="func_stop_autoplay()" class="button" type="button">Stop autoplay</button>
   <button onclick="func_next(1)" class="button" type="button">Next</button>
-  <button onclick="func_next(3)" class="button" type="button">Next + 2</button>
+  <button onclick="func_next(3)" class="button" type="button">Next(3)</button>
 </div>
 <div class="buttons">
   <button onclick="func_center(0)" class="button" type="button">Go to 1</button>
@@ -180,6 +205,8 @@
   <button onclick="func_center(2)" class="button" type="button">Go to 3</button>
   <button onclick="func_center(3)" class="button" type="button">Go to 4</button>
   <button onclick="func_center(4)" class="button" type="button">Go to 5</button>
+</div>
+<div class="buttons">
   <button onclick="func_center(5)" class="button" type="button">Go to 6</button>
   <button onclick="func_center(6)" class="button" type="button">Go to 7</button>
   <button onclick="func_center(7)" class="button" type="button">Go to 8</button>
@@ -247,7 +274,7 @@
 
   <div class="space"></div>
 
-  <wc-carousel-lite id="karuselli_3" init-item=4 transition-duration=1000>
+  <wc-carousel-lite id="karuselli_3" init-item=4 transition-duration=1000 center-between>
     <div class="item">
       <div class="number">1</div>
       <img src="https://placekitten.com/g/400/200">
@@ -290,6 +317,32 @@
       <div class="number">10</div>
       <img src="https://placekitten.com/g/320/200">
     </div>
+  </wc-carousel-lite>
+  <div class="mittari">
+    <div class="puolikas">
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button onclick="func_prev_3(1)" class="button" type="button">Prev</button>
+    <button onclick="func_start_autoplay_3()" class="button" type="button">Start autoplay</button>
+    <button onclick="func_stop_autoplay_3()" class="button" type="button">Stop autoplay</button>
+    <button onclick="func_next_3(1)" class="button" type="button">Next</button>
+  </div>
+
+  <div class="space"></div>
+
+  <wc-carousel-lite id="karuselli_4" init-item=4 transition-duration=1000 item="slide">
+      <img src="https://placekitten.com/g/400/200" class="slide" width="400">
+      <img src="https://placekitten.com/g/300/200" class="slide" width="300">
+      <img src="https://placekitten.com/g/250/200" class="slide" width="250">
+      <img src="https://placekitten.com/g/200/200" class="slide" width="200">
+      <img src="https://placekitten.com/g/350/200" class="slide" width="350">
+      <img src="https://placekitten.com/g/150/200" class="slide" width="150">
+      <img src="https://placekitten.com/g/170/200" class="slide" width="170">
+      <img src="https://placekitten.com/g/420/200" class="slide" width="420">
+      <img src="https://placekitten.com/g/290/200" class="slide" width="290">
+      <img src="https://placekitten.com/g/320/200" class="slide" width="320">
   </wc-carousel-lite>
   <div class="mittari">
     <div class="puolikas">

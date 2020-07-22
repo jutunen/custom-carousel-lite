@@ -1,6 +1,6 @@
 # wc-carousel-lite
 
-A web component that wraps HTML elements and forms a carousel slider out of them.
+A web component that wraps HTML elements and forms a horizontal carousel slider out of them.
 
 Live demo available [here.](http://51.38.51.120/wc-carousel-lite/)
 
@@ -12,6 +12,7 @@ Component features include:
 - responsive: adapts to different screen widths automatically
 - infinite looping of slide items
 - support for swipe gestures (mouse & touch)
+- keyboard control (left/right arrow)
 - autoplay
 
 ## Usage
@@ -45,7 +46,7 @@ Styling the carousel:
   }
 ```
 
-Setting the item gap width:
+Setting the width of the space between items:
 
 ```css
    .item {
@@ -54,7 +55,7 @@ Setting the item gap width:
   }
 ```
 
-2nd HTML example, using images directly as items:
+Another HTML example, using images directly as items:
 
  ```html
      <wc-carousel-lite>
@@ -71,7 +72,7 @@ Setting the item gap width:
 1. Import polyfill, this is not needed for modern browsers:
 
     ```html
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/custom-elements/1.4.1/custom-elements.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/custom-elements/1.4.2/custom-elements.min.js"></script>
     ```
 
 2. Import custom element:
@@ -189,9 +190,9 @@ HTML example:
 
 ### center-between
 
-If defined, the items are centered so that the carousel midpoint will be between the items.
+If defined, the items are centered so that the carousel midpoint is between the items.
 
-By default, the items are centered so that the carousel midpoint is in the middle of the item.
+By default, the items are centered so that the carousel midpoint is in the middle of item.
 
 This attribute is a boolean attribute, also known as a valueless attribute.
 
@@ -245,21 +246,41 @@ HTML example:
 
 Defines new item class name, if the default class name 'item' can not be used.
 
+HTML example:
+
+```html
+<wc-carousel-lite item='slide'>
+  <img src="https://placekitten.com/g/400/200" class="slide" width="400">
+  <img src="https://placekitten.com/g/300/200" class="slide" width="300">
+  <img src="https://placekitten.com/g/250/200" class="slide" width="250">      
+</wc-carousel-lite> 
+```
+
 ## Methods
 
 Methods can not be used before the carousel is appended to DOM.
 
 ### next( shift )
 
-Shifts items to left. Parameter shift is a number indicating the number of items to be shifted. Parameter default value is 1.
+Shifts items to left. 
+
+Parameter shift is a number indicating the number of items to be shifted.
+
+Parameter default value is 1.
 
 ### prev( shift )
 
-Shifts items to right. Parameter shift is a number indicating the number of items to be shifted. Parameter default value is 1.
+Shifts items to right. 
+
+Parameter shift is a number indicating the number of items to be shifted. 
+
+Parameter default value is 1.
 
 ### goto( index )
 
-Centers item according to index. Parameter index is a number indicating the item ordinal number beginning from zero.
+Centers item according to index. 
+
+Parameter index is a number indicating the item ordinal number beginning from zero.
 
 ### play
 
@@ -293,12 +314,12 @@ Example:
    
 ## Adding and removing items dynamically
    
-Carousel component does not have methods to add/remove items dynamically.
+Carousel does not have methods to add / remove items dynamically.
    
-To add/remove items dynamically, do the following:
+To add / remove items dynamically, do the following:
    
 1. Remove carousel from DOM
-2. Add/remove items from the carousel
+2. Add / remove items from the carousel
 3. Append carousel back to DOM
 
 ## Building

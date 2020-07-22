@@ -268,8 +268,6 @@ class Customcarousel extends HTMLElement {
       factor++;
     }
 
-    console.log("factor " + factor);
-
     if (factor !== this.currentFactor) {
       this._copyItems(factor);
       let index;
@@ -465,13 +463,10 @@ class Customcarousel extends HTMLElement {
 
   _checkImageLoading () {
     if(this.carouselImages.every( x => x.complete === true)) {
-      console.log("All images loaded!");
       clearInterval(this.intervalId);
       this._postInit();
       return true;
     }
-    console.log("All images NOT loaded!");
-    return false;
   }
 
   _postInit () {
@@ -492,7 +487,6 @@ class Customcarousel extends HTMLElement {
     }
 
     if (this.autoplay) {
-      console.log("Starting autoplay!");
       this.play();
     }
   }
@@ -500,30 +494,25 @@ class Customcarousel extends HTMLElement {
   _init() {
 
     if(!this.isInitialized) {
-      console.log("Initializing...");
       let displayStyle = getComputedStyle(this).display;
-      if(displayStyle !== "flex" && displayStyle !== "inline-flex") {
+      if(displayStyle !== "flex" && displayStyle !== "inline-flex" && displayStyle !== "none") {
         this.style.display = "flex";
       }
       this.style.overflow = "hidden";
       this.itemsContainer = this.appendChild(document.createElement("div"));
-      this.itemsContainer.style.display = "inline-flex";
+      this.itemsContainer.style.display = "flex";
       this.itemsContainer.style.position = "relative";
-      this.itemsContainer.overflow = "hidden";
     }
 
     this.carouselImages = Array.from(this.querySelectorAll("img"));
     this.originalEntries = this.querySelectorAll("." + this.item);
-
-    console.log("this.initItem " + this.initItem);
-    console.log("this.originalEntries.length " + this.originalEntries.length);
 
     if (this.originalEntries.length === 0) {
       throw "couldn't find any children with " + this.item + " class";
     }
 
     if (this.initItem + 1 > this.originalEntries.length) {
-      throw "centered item value too big";
+      this.initItem = 0;
     }
 
     let style, allWidthsDefined = true;
@@ -534,10 +523,6 @@ class Customcarousel extends HTMLElement {
         break;
       }
     }
-
-    console.log("allWidthsDefined: " + allWidthsDefined);
-
-    //this.carouselImages.forEach(x => console.log(x.complete));
 
     if(allWidthsDefined) {
       this._postInit();

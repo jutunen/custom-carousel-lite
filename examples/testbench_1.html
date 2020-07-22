@@ -67,6 +67,13 @@ function func_center_middle() {
   carousel.centerBetween = false;
 }
 
+function func_set_linear() {
+  carousel.transitionType = "linear";
+}
+
+function func_set_ease() {
+  carousel.transitionType = "ease";
+}
 
 </script>
 
@@ -147,6 +154,8 @@ function func_center_middle() {
   <button onclick="func_next()" class="button" type="button">Next</button>
   <button onclick="func_center_between()" class="button" type="button">Center between</button>
   <button onclick="func_center_middle()" class="button" type="button">Center middle</button>
+  <button onclick="func_set_linear()" class="button" type="button">Linear</button>
+  <button onclick="func_set_ease()" class="button" type="button">Ease</button>
 </div>
 <div class="space">
 </div>

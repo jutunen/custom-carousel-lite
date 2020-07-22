@@ -501,8 +501,10 @@ class Customcarousel extends HTMLElement {
 
     if(!this.isInitialized) {
       console.log("Initializing...");
-      this.style.backgroundColor = "lightgray";
-      this.style.display = "flex";
+      let displayStyle = getComputedStyle(this).display;
+      if(displayStyle !== "flex" && displayStyle !== "inline-flex") {
+        this.style.display = "flex";
+      }
       this.style.overflow = "hidden";
       this.itemsContainer = this.appendChild(document.createElement("div"));
       this.itemsContainer.style.display = "inline-flex";

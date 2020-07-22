@@ -8,15 +8,15 @@ Live demo available [here.](http://51.38.51.120/wc-carousel-lite/)
 Wc-carousel-lite is a standalone vanilla JS web component that does not use shadow DOM.
 
 Component features include:
-- content agnostic: slide items should be able to contain any HTML
+- content agnostic: carousel items should be able to contain any HTML
 - responsive: adapts to different screen widths automatically
-- infinite looping of slide items
+- infinite looping of items
 - support for swipe gestures (mouse & touch)
 - keyboard control (left/right arrow)
 - autoplay
 
 ## Usage
-- create slide item containers by assigning item class to them
+- create item containers by assigning item class to them
 - add content inside the containers
 - wrap the item containers inside a carousel component
 - set necessary carousel style (width, height)
@@ -46,7 +46,7 @@ Styling the carousel:
   }
 ```
 
-Setting the width of the space between items:
+Setting width of the space between items:
 
 ```css
    .item {

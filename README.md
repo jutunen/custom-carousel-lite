@@ -21,7 +21,7 @@ Component features include:
 - wrap the item containers inside a carousel component
 - set necessary carousel style (width, height)
 
-HTML example:
+**HTML example:**
 
  ```html
      <wc-carousel-lite>
@@ -36,7 +36,7 @@ HTML example:
         </div>
      </wc-carousel-lite>    
  ```
-Styling the carousel:
+**Styling the carousel:**
 
  ```css
    wc-carousel-lite {
@@ -46,7 +46,11 @@ Styling the carousel:
   }
 ```
 
-Setting width of the space between items:
+Note that carousel display style must be either *flex*, *inline-flex* or *none*.
+
+If display style is set to something else, carousel will set it to *flex* during initialization.
+
+**Setting width of the space between items:**
 
 ```css
    .item {
@@ -55,7 +59,7 @@ Setting width of the space between items:
   }
 ```
 
-Another HTML example, using images directly as items:
+**Another HTML example, using images directly as items:**
 
  ```html
      <wc-carousel-lite>

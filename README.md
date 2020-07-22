@@ -2,7 +2,7 @@
 
 A web component that wraps HTML elements and forms a carousel slider out of them.
 
-Live demo available [here.](http://51.38.51.120/wcmenuwrapper/)
+Live demo available [here.](http://51.38.51.120/wc-carousel-lite/)
 
 ## Features
 Wc-carousel-lite is a standalone vanilla JS web component that does not use shadow DOM.
@@ -11,6 +11,7 @@ Component features include:
 - content agnostic: slide items should be able to contain any HTML
 - responsive: adapts to different screen widths automatically
 - infinite looping of slide items
+- support for swipe gestures (mouse & touch)
 - autoplay
 
 ## Usage
@@ -34,13 +35,22 @@ HTML example:
         </div>
      </wc-carousel-lite>    
  ```
- Styling the carousel:
+Styling the carousel:
 
  ```css
    wc-carousel-lite {
     height: 200px;
     width: 500px;
     margin: auto;
+  }
+```
+
+Setting the item gap width:
+
+```css
+   .item {
+     margin-left: 20px;
+     margin-right: 20px;
   }
 ```
 
@@ -121,8 +131,33 @@ HTML example:
    document.body.appendChild(carousel);
    ```
 
-
 ## Attributes
+
+### transition-duration
+
+Defines item shift duration in milliseconds.
+
+Default value is 0 ms, meaning that that the shift takes place instantly.
+
+HTML example:
+
+```html
+<wc-carousel-lite transition-duration=1000>
+```
+
+### transition-type
+
+Defines the speed curve of the item shift transition effect.
+
+For possible attribute values, see https://www.w3schools.com/cssref/css3_pr_transition-timing-function.asp
+
+Default value is 'ease'.
+
+HTML example:
+
+```html
+<wc-carousel-lite transition-type='linear'>
+```
 
 ### infinite
 
@@ -140,7 +175,7 @@ HTML example:
 
 ### init-item
 
-Defines which item will be initially centered to be visible to the use.
+Defines which item will be initially shown at the carousel midpoint.
 
 Item numbering begins from zero.
 
@@ -154,9 +189,9 @@ HTML example:
 
 ### center-between
 
-If defined, the carousel view will be centered between the items. (even centering)
+If defined, the items are centered so that the carousel midpoint will be between the items.
 
-By default, the view will be centered to the middle of the item. (odd centering)
+By default, the items are centered so that the carousel midpoint is in the middle of the item.
 
 This attribute is a boolean attribute, also known as a valueless attribute.
 
@@ -204,32 +239,6 @@ HTML example:
 
 ```html
 <wc-carousel-lite direction='right'>
-```
-
-### transition-duration
-
-Defines item shift duration in milliseconds.
-
-Default value is 0 ms, meaning that that the shift takes place instantly.
-
-HTML example:
-
-```html
-<wc-carousel-lite transition-duration=1000>
-```
-
-### transition-type
-
-Defines the speed curve of the item shift transition effect.
-
-For possible attribute values, see https://www.w3schools.com/cssref/css3_pr_transition-timing-function.asp
-
-Default value is 'ease'.
-
-HTML example:
-
-```html
-<wc-carousel-lite transition-type='linear'>
 ```
 
 ### item

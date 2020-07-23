@@ -181,7 +181,7 @@ HTML example:
 
 Defines autoplay shift interval in milliseconds.
 
-Default value is 1000 ms.
+Default value is 1000.
 
 This value must be equal or bigger than transition duration.
 
@@ -195,7 +195,7 @@ HTML example:
 
 Defines item shift duration in milliseconds.
 
-Default value is 0 ms, meaning that that the shift takes place instantly.
+Default value is 0, meaning that that the shift takes place instantly.
 
 This value must be equal or smaller than interval.
 
@@ -261,6 +261,62 @@ HTML example:
 </wc-carousel-lite> 
 ```
 
+### touchVelocityLimit
+
+Defines the swipe velocity limit for item shift boosting.
+
+When touch swipe velocity is bigger than the limit, items are shifted with an additional shift.
+
+Default value is 1.5 (pixels per millisecond).
+
+This attribute can't be assigned as an HTML attribute.
+
+### mouseVelocityLimit
+
+Defines the swipe velocity limit for item shift boosting.
+
+When mouse swipe velocity is bigger than the limit, items are shifted with an additional shift.
+
+Default value is 3.0 (pixels per millisecond).
+
+This attribute can't be assigned as an HTML attribute.
+
+### minShiftRequired
+
+Minimum horizontal swipe movement required to shift an item.
+
+Default value is 30 (pixels).
+
+This attribute can't be assigned as an HTML attribute.
+
+## Setting attributes dynamically
+
+All attributes should be set before the carousel is appended to DOM.
+
+Example:
+
+   ```javascript
+   let carousel = document.createElement("wc-carousel-lite");
+   
+   carousel.initItem = 2;
+   carousel.transitionType = 'linear';
+   carousel.transitionDuration = 1000;
+   carousel.interval = 2000;
+   carousel.infinite = true;
+   carousel.autoplay = true;
+   carousel.centerBetween = true;
+   carousel.direction = right;
+   carousel.touchVelocityLimit = 1;
+   carousel.mouseVelocityLimit = 2;
+   carousel.minShiftRequired = 20;
+   
+   // Add items here:
+   // ...
+   
+   // Finally append to DOM:
+   document.body.appendChild(carousel);
+   ```
+ 
 ## Methods
 
 Methods can not be used before the carousel is appended to DOM.
@@ -295,29 +351,6 @@ Starts autoplay.
 
 Stops autoplay.
 
-## Setting attributes dynamically
-
-All attributes should be set before the carousel is appended to DOM.
-
-Example:
-
-   ```javascript
-   let carousel = document.createElement("wc-carousel-lite");
-   carousel.initItem = 2;
-   carousel.transitionType = 'linear';
-   carousel.transitionDuration = 1000;
-   carousel.interval = 2000;
-   carousel.infinite = true;
-   carousel.autoplay = true;
-   carousel.centerBetween = true;
-   carousel.direction = right;
-   
-   // Add items here
-   
-   // Finally append to DOM:
-   document.body.appendChild(carousel);
-   ```
-   
 ## Adding and removing items dynamically
    
 Carousel does not have specific methods to add / remove items dynamically.

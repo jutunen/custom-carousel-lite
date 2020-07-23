@@ -43,12 +43,9 @@ Component features include:
     height: 200px;
     width: 500px;
     margin: auto;
+    display: flex;
   }
 ```
-
-Note that carousel display style must be either *flex*, *inline-flex* or *none*.
-
-If display style is set to something else, carousel will set it to *flex* during initialization.
 
 **Setting width of the space between items:**
 
@@ -318,12 +315,14 @@ Example:
    
 ## Adding and removing items dynamically
    
-Carousel does not have methods to add / remove items dynamically.
+Carousel does not have specific methods to add / remove items dynamically.
+
+When carousel is appended to DOM, items can not be added or removed.
    
 To add / remove items dynamically, do the following:
    
 1. Remove carousel from DOM
-2. Add / remove items from the carousel
+2. Add / remove items from the carousel by using appendChild / remove
 3. Append carousel back to DOM
 
 ## Building

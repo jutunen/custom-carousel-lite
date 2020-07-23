@@ -352,7 +352,7 @@ class Customcarousel extends HTMLElement {
       this._autoplayHandler();
       this.autoPlayIntervalId = setInterval(() => {
         this._autoplayHandler();
-      }, this.interval + this.transitionDuration);
+      }, this.interval);
       this.autoplay = true;
     }
   }

@@ -38,7 +38,7 @@ class Customcarousel extends HTMLElement {
     }
     this.originalEntries = [];
     this.currentFactor = null;
-    this.stop();
+    this.stop(this.autoplay);
     this.connected = false;
   }
 
@@ -341,9 +341,10 @@ class Customcarousel extends HTMLElement {
     }
   }
 
-  stop() {
+  stop(state = false) {
     clearInterval(this.autoPlayIntervalId);
     this.autoPlayIntervalId = null;
+    this.autoplay = state;
   }
 
   play() {
@@ -352,6 +353,7 @@ class Customcarousel extends HTMLElement {
       this.autoPlayIntervalId = setInterval(() => {
         this._autoplayHandler();
       }, this.interval + this.transitionDuration);
+      this.autoplay = true;
     }
   }
 

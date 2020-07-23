@@ -494,12 +494,10 @@ class Customcarousel extends HTMLElement {
   _init() {
 
     if(!this.isInitialized) {
-      let displayStyle = getComputedStyle(this).display;
-      if(displayStyle !== "flex" && displayStyle !== "inline-flex" && displayStyle !== "none") {
-        this.style.display = "flex";
-      }
-      this.style.overflow = "hidden";
-      this.itemsContainer = this.appendChild(document.createElement("div"));
+      this.sliderContainer = this.appendChild(document.createElement("div"));
+      this.sliderContainer.style.display = "flex";
+      this.sliderContainer.style.overflow = "hidden";
+      this.itemsContainer = this.sliderContainer.appendChild(document.createElement("div"));
       this.itemsContainer.style.display = "flex";
       this.itemsContainer.style.position = "relative";
     }

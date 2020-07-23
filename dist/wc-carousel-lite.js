@@ -10,6 +10,9 @@ class Customcarousel extends HTMLElement {
     this.transitionType = "ease";
     this.interval = 1000;
     this.direction = "left";
+    this.touchVelocityLimit = 1.5; // pixels per millisecond
+    this.mouseVelocityLimit = 3.0; // pixels per millisecond
+    this.minxShiftRequired = 30; // minimum x shift required to shift the item (pixels)
     this.autoPlayIntervalId = null;
     this.intervalId = null;
     this.carouselImages = [];
@@ -423,25 +426,20 @@ class Customcarousel extends HTMLElement {
     let yShift = (event.pageY ? event.pageY : event.changedTouches[0].pageY) - this.y;
 
     let elapsedTime = new Date().getTime() - this.startTime;
-
     let velocity = Math.abs(xShift/elapsedTime);
-    let touchVelocityLimit = 1.5; // pixels per millisecond
-    let mouseVelocityLimit = 3.0; // pixels per millisecond
 
-    if(velocity > touchVelocityLimit && event.changedTouches) {
+    if(velocity > this.touchVelocityLimit && event.changedTouches) {
       shiftInItems++; // boost touch swipe if it's above the velocity limit
-    } else if( velocity  > mouseVelocityLimit) {
+    } else if( velocity  > this.mouseVelocityLimit) {
       shiftInItems++; // boost mouse swipe if it's above the velocity limit
     }
 
-    // minimum x shift required to shift the item (pixels)
-    let minxShiftRequired = 30;
-    if ( Math.abs(xShift) > minxShiftRequired && Math.abs(xShift) > Math.abs(yShift) ) {
+    if ( Math.abs(xShift) > this.minxShiftRequired && Math.abs(xShift) > Math.abs(yShift) ) {
       event.preventDefault();
       this.preventClick = true;
-      if (xShift < -minxShiftRequired ) {
+      if (xShift < -this.minxShiftRequired ) {
         this.next(shiftInItems);
-      } else if (xShift > minxShiftRequired ) {
+      } else if (xShift > this.minxShiftRequired ) {
         this.prev(shiftInItems);
       }
     }

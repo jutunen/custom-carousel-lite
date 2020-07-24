@@ -13,7 +13,7 @@ let carousel;
 function func_create_carousel() {
   carousel = document.createElement("wc-carousel-lite");
   carousel.transitionDuration = 1000;
-  carousel.infinite = true;
+  //carousel.infinite = true;
   carousel.autoplay = true;
   carousel.centerBetween = true;
 }
@@ -75,6 +75,15 @@ function func_set_ease() {
   carousel.transitionType = "ease";
 }
 
+function func_trans_dura(dura) {
+  carousel.transitionDuration = dura;
+}
+
+function func_set_interval(interval) {
+  carousel.interval = interval;
+}
+
+
 </script>
 
 <style>
@@ -86,13 +95,14 @@ function func_set_ease() {
     width: 100%;
     margin: auto;
     height: 200px;
+    display: flex;
   }
-
+/*
   #karuselli_2 {
     width: 500px;
     margin: auto;
   }
-
+*/
   .item {
     display: inline;
     margin-right: 15px;
@@ -156,6 +166,16 @@ function func_set_ease() {
   <button onclick="func_center_middle()" class="button" type="button">Center middle</button>
   <button onclick="func_set_linear()" class="button" type="button">Linear</button>
   <button onclick="func_set_ease()" class="button" type="button">Ease</button>
+  <button onclick="func_trans_dura(0)" class="button" type="button">Duration 0</button>
+  <button onclick="func_trans_dura(500)" class="button" type="button">Duration 500</button>
+  <button onclick="func_trans_dura(1000)" class="button" type="button">Duration 1k</button>
+</div>
+<div class="buttons">
+  <button onclick="func_set_interval(0)" class="button" type="button">Interval 0</button>
+  <button onclick="func_set_interval(200)" class="button" type="button">Interval 200</button>
+  <button onclick="func_set_interval(500)" class="button" type="button">Interval 500</button>
+  <button onclick="func_set_interval(1000)" class="button" type="button">Interval 1000</button>
+  <button onclick="func_set_interval(2000)" class="button" type="button">Interval 2000</button>
 </div>
 <div class="space">
 </div>

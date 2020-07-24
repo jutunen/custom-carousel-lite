@@ -3,73 +3,33 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script defer src='../dist/wc-carousel-lite.js'></script>
+  <script defer src='../dist/wc-carousel-lite.min.js'></script>
 </head>
 
 <script>
 
-  function func_center(index) {
-    let karu = document.getElementById('karuselli')
+  function func_center(index,id) {
+    let karu = document.getElementById(id)
     karu.goto(index)
   }
 
-  function func_next(n) {
-    let karu = document.getElementById('karuselli')
-    karu.next(n)
+  function func_next(shift,id) {
+    let karu = document.getElementById(id)
+    karu.next(shift)
   }
 
-  function func_prev(n) {
-    let karu = document.getElementById('karuselli')
-    karu.prev(n)
+  function func_prev(shift,id) {
+    let karu = document.getElementById(id)
+    karu.prev(shift)
   }
 
-  function func_stop_autoplay() {
-    let karu = document.getElementById('karuselli')
+  function func_stop_autoplay(id) {
+    let karu = document.getElementById(id)
     karu.stop()
   }
 
-  function func_start_autoplay() {
-    let karu = document.getElementById('karuselli')
-    karu.play()
-  }
-
-  function func_next_2(n) {
-    let karu = document.getElementById('karuselli_2')
-    karu.next(n)
-  }
-
-  function func_prev_2(n) {
-    let karu = document.getElementById('karuselli_2')
-    karu.prev(n)
-  }
-
-  function func_stop_autoplay_2() {
-    let karu = document.getElementById('karuselli_2')
-    karu.stop()
-  }
-
-  function func_start_autoplay_2() {
-    let karu = document.getElementById('karuselli_2')
-    karu.play()
-  }
-
-  function func_next_3(n) {
-    let karu = document.getElementById('karuselli_3')
-    karu.next(n)
-  }
-
-  function func_prev_3(n) {
-    let karu = document.getElementById('karuselli_3')
-    karu.prev(n)
-  }
-
-  function func_stop_autoplay_3() {
-    let karu = document.getElementById('karuselli_3')
-    karu.stop()
-  }
-
-  function func_start_autoplay_3() {
-    let karu = document.getElementById('karuselli_3')
+  function func_start_autoplay(id) {
+    let karu = document.getElementById(id)
     karu.play()
   }
 
@@ -84,11 +44,12 @@
     width: 100%;
     margin: auto;
     height: 200px;
+    background-color: lightgray;
+    display: flex;
   }
 
   #karuselli_2 {
     width: 500px;
-    margin: auto;
   }
 
   .item {
@@ -137,11 +98,62 @@
     opacity: 0.7;
   }
 
+  #header{
+    padding: 10px 20px;
+    margin:10px auto;
+    margin-bottom: 40px;
+    width:500px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color: white;
+    flex-direction: column;
+    font-family: Arial;
+    box-shadow: 4px 4px 4px lightgrey;
+    font-size: 20px;
+  }
+
+  #description {
+    width: 600px;
+    padding: 10px 20px;
+    margin:10px auto;
+    font-size: 16px;
+    font-style: italic;
+    font-family: Arial;
+    text-align: center;
+  }
+
+  .text_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .demotext {
+    font-size: 30px;
+    font-family: Arial;
+    width: 900px;
+    text-align: center;
+    padding: 20px;
+  }
+
 </style>
 
 <body>
 
-  <wc-carousel-lite id="karuselli" init-item=5 transition-duration=1000 infinite center-between>
+  <div id="description">
+    wc-carousel-lite web component is available from <a href="https://github.com/vanillawc/wc-carousel-lite" target="_blank">GitHub</a> and <a href="https://www.npmjs.com/package/@vanillawc/wc-carousel-lite" target="_blank">NPM registry</a>
+  </div>
+  <div id='header'>
+    wc-carousel-lite demo
+  </div>
+  <div class="text_container">
+    <div class="demotext">
+      Infinite carousel with 100% width:
+    </div>
+  </div>
+  <wc-carousel-lite id="karuselli" init-item=5 transition-duration=1000 infinite>
     <div class="item" style="width:400px">
       <div class="number">1</div>
       <img src="https://placekitten.com/g/400/200">
@@ -192,30 +204,35 @@
   </div>
 
 <div class="buttons">
-  <button onclick="func_prev(3)" class="button" type="button">Prev(3)</button>
-  <button onclick="func_prev(1)" class="button" type="button">Prev</button>
-  <button onclick="func_start_autoplay()" class="button" type="button">Start autoplay</button>
-  <button onclick="func_stop_autoplay()" class="button" type="button">Stop autoplay</button>
-  <button onclick="func_next(1)" class="button" type="button">Next</button>
-  <button onclick="func_next(3)" class="button" type="button">Next(3)</button>
+  <button onclick="func_prev(3,'karuselli')" class="button" type="button">Prev(3)</button>
+  <button onclick="func_prev(1,'karuselli')" class="button" type="button">Prev</button>
+  <button onclick="func_start_autoplay('karuselli')" class="button" type="button">Start autoplay</button>
+  <button onclick="func_stop_autoplay('karuselli')" class="button" type="button">Stop autoplay</button>
+  <button onclick="func_next(1,'karuselli')" class="button" type="button">Next</button>
+  <button onclick="func_next(3,'karuselli')" class="button" type="button">Next(3)</button>
 </div>
 <div class="buttons">
-  <button onclick="func_center(0)" class="button" type="button">Go to 1</button>
-  <button onclick="func_center(1)" class="button" type="button">Go to 2</button>
-  <button onclick="func_center(2)" class="button" type="button">Go to 3</button>
-  <button onclick="func_center(3)" class="button" type="button">Go to 4</button>
-  <button onclick="func_center(4)" class="button" type="button">Go to 5</button>
+  <button onclick="func_center(0,'karuselli')" class="button" type="button">Go to 1</button>
+  <button onclick="func_center(1,'karuselli')" class="button" type="button">Go to 2</button>
+  <button onclick="func_center(2,'karuselli')" class="button" type="button">Go to 3</button>
+  <button onclick="func_center(3,'karuselli')" class="button" type="button">Go to 4</button>
+  <button onclick="func_center(4,'karuselli')" class="button" type="button">Go to 5</button>
 </div>
 <div class="buttons">
-  <button onclick="func_center(5)" class="button" type="button">Go to 6</button>
-  <button onclick="func_center(6)" class="button" type="button">Go to 7</button>
-  <button onclick="func_center(7)" class="button" type="button">Go to 8</button>
-  <button onclick="func_center(8)" class="button" type="button">Go to 9</button>
-  <button onclick="func_center(9)" class="button" type="button">Go to 10</button>
+  <button onclick="func_center(5,'karuselli')" class="button" type="button">Go to 6</button>
+  <button onclick="func_center(6,'karuselli')" class="button" type="button">Go to 7</button>
+  <button onclick="func_center(7,'karuselli')" class="button" type="button">Go to 8</button>
+  <button onclick="func_center(8,'karuselli')" class="button" type="button">Go to 9</button>
+  <button onclick="func_center(9,'karuselli')" class="button" type="button">Go to 10</button>
 </div>
 
   <div class="space"></div>
 
+  <div class="text_container">
+    <div class="demotext">
+      Infinite carousel with 500px width:
+    </div>
+  </div>
   <wc-carousel-lite id="karuselli_2" init-item=4 transition-duration=1000 infinite>
     <div class="item">
       <div class="number">1</div>
@@ -266,13 +283,19 @@
   </div>
 
 <div class="buttons">
-  <button onclick="func_prev_2(1)" class="button" type="button">Prev</button>
-  <button onclick="func_start_autoplay_2()" class="button" type="button">Start autoplay</button>
-  <button onclick="func_stop_autoplay_2()" class="button" type="button">Stop autoplay</button>
-  <button onclick="func_next_2(1)" class="button" type="button">Next</button>
+  <button onclick="func_prev(1,'karuselli_2')" class="button" type="button">Prev</button>
+  <button onclick="func_start_autoplay('karuselli_2')" class="button" type="button">Start autoplay</button>
+  <button onclick="func_stop_autoplay('karuselli_2')" class="button" type="button">Stop autoplay</button>
+  <button onclick="func_next(1,'karuselli_2')" class="button" type="button">Next</button>
 </div>
 
   <div class="space"></div>
+
+  <div class="text_container">
+    <div class="demotext">
+      Between centered non-infinite carousel with 100% width:
+    </div>
+  </div>
 
   <wc-carousel-lite id="karuselli_3" init-item=4 transition-duration=1000 center-between>
     <div class="item">
@@ -324,13 +347,19 @@
   </div>
 
   <div class="buttons">
-    <button onclick="func_prev_3(1)" class="button" type="button">Prev</button>
-    <button onclick="func_start_autoplay_3()" class="button" type="button">Start autoplay</button>
-    <button onclick="func_stop_autoplay_3()" class="button" type="button">Stop autoplay</button>
-    <button onclick="func_next_3(1)" class="button" type="button">Next</button>
+    <button onclick="func_prev(1,'karuselli_3')" class="button" type="button">Prev</button>
+    <button onclick="func_start_autoplay('karuselli_3')" class="button" type="button">Start autoplay</button>
+    <button onclick="func_stop_autoplay('karuselli_3')" class="button" type="button">Stop autoplay</button>
+    <button onclick="func_next(1,'karuselli_3')" class="button" type="button">Next</button>
   </div>
 
   <div class="space"></div>
+
+  <div class="text_container">
+    <div class="demotext">
+      Non-infinite carousel with 100% width,<br>using images as items directly,<br>item right and left margin 0:
+    </div>
+  </div>
 
   <wc-carousel-lite id="karuselli_4" init-item=4 transition-duration=1000 item="slide">
       <img src="https://placekitten.com/g/400/200" class="slide" width="400">
@@ -348,6 +377,15 @@
     <div class="puolikas">
     </div>
   </div>
+
+  <div class="buttons">
+    <button onclick="func_prev(1,'karuselli_4')" class="button" type="button">Prev</button>
+    <button onclick="func_start_autoplay('karuselli_4')" class="button" type="button">Start autoplay</button>
+    <button onclick="func_stop_autoplay('karuselli_4')" class="button" type="button">Stop autoplay</button>
+    <button onclick="func_next(1,'karuselli_4')" class="button" type="button">Next</button>
+  </div>
+
+  <div class="space"></div>
 
 </body>
 </html>

@@ -291,7 +291,7 @@ This attribute can't be assigned as an HTML attribute.
 
 ## Setting attributes dynamically
 
-All attributes should be set before the carousel is appended to DOM.
+*initItem* and *infinite* attributes should be set before the carousel is appended to DOM.
 
 Example:
 
@@ -362,6 +362,24 @@ To add / remove items dynamically, do the following:
 1. Remove carousel from DOM
 2. Add / remove items from the carousel by using appendChild / remove
 3. Append carousel back to DOM
+
+## Default attribute values
+
+Default values are defined and modifiable in the custom element constructor.
+
+See file wc-carousel-lite.js in dist folder.
+
+```javascript
+    this.item = "item";
+    this.initItem = 0;
+    this.transitionDuration = 0;
+    this.transitionType = "ease";
+    this.interval = 1000;
+    this.direction = "left";
+    this.touchVelocityLimit = 1.5; // pixels per millisecond
+    this.mouseVelocityLimit = 3.0; // pixels per millisecond
+    this.minShiftRequired = 30; // minimum x shift required to shift the item (pixels)
+```
 
 ## Building
 

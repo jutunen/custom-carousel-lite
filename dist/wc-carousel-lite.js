@@ -12,7 +12,7 @@ class Customcarousel extends HTMLElement {
     this.direction = "left";
     this.touchVelocityLimit = 1.5; // pixels per millisecond
     this.mouseVelocityLimit = 3.0; // pixels per millisecond
-    this.minxShiftRequired = 30; // minimum x shift required to shift the item (pixels)
+    this.minShiftRequired = 30; // minimum x shift required to shift the item (pixels)
     this.autoPlayIntervalId = null;
     this.intervalId = null;
     this.carouselImages = [];
@@ -434,12 +434,12 @@ class Customcarousel extends HTMLElement {
       shiftInItems++; // boost mouse swipe if it's above the velocity limit
     }
 
-    if ( Math.abs(xShift) > this.minxShiftRequired && Math.abs(xShift) > Math.abs(yShift) ) {
+    if ( Math.abs(xShift) > this.minShiftRequired && Math.abs(xShift) > Math.abs(yShift) ) {
       event.preventDefault();
       this.preventClick = true;
-      if (xShift < -this.minxShiftRequired ) {
+      if (xShift < -this.minShiftRequired ) {
         this.next(shiftInItems);
-      } else if (xShift > this.minxShiftRequired ) {
+      } else if (xShift > this.minShiftRequired ) {
         this.prev(shiftInItems);
       }
     }

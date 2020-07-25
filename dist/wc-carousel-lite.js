@@ -82,8 +82,8 @@ class Customcarousel extends HTMLElement {
 
     if (!this.infinite) {
       if (
-        (!this.centerBetween && this.currentlyCentered + (shift - 1) < this.itemsCount - 1) ||
-        (this.centerBetween && this.currentlyCentered < this.itemsCount - 3)
+        !this.centerBetween && this.currentlyCentered + (shift - 1) < this.itemsCount - 1 ||
+        this.centerBetween && this.currentlyCentered < this.itemsCount - 3
       ) {
         this._stopTransition();
       }
@@ -133,7 +133,7 @@ class Customcarousel extends HTMLElement {
 
     let center = this.offsetWidth / 2;
     let entries = this.itemsContainer.querySelectorAll("." + this.item);
-    if ((this.centerBetween && index === entries.length - 1) || !entries[index]) {
+    if (this.centerBetween && index === entries.length - 1 || !entries[index]) {
       return;
     }
     let i, nextMarginMiddle, style, margin, sum = 0;
@@ -259,7 +259,7 @@ class Customcarousel extends HTMLElement {
       return;
     }
 
-    let factor = parseInt((2.75 * this.offsetWidth) / this.initItemsWidth);
+    let factor = parseInt(2.75 * this.offsetWidth / this.initItemsWidth);
 
     if (this.originalEntries.length < 3) {
       factor += 3;
@@ -375,12 +375,12 @@ class Customcarousel extends HTMLElement {
     return shift;
   }
 
-  _getItemIndex(element) {
-    if(!element) {
+  _getItemIndex(elem) {
+    if(!elem) {
       return null;
     }
     let i = 0;
-    while ((element = element.previousSibling) !== null) {
+    while ((elem = elem.previousSibling) !== null) {
       i++;
     }
     return i;
@@ -430,7 +430,7 @@ class Customcarousel extends HTMLElement {
 
     if(velocity > this.touchVelocityLimit && event.changedTouches) {
       shiftInItems++; // boost touch swipe if it's above the velocity limit
-    } else if( velocity  > this.mouseVelocityLimit) {
+    } else if( velocity > this.mouseVelocityLimit) {
       shiftInItems++; // boost mouse swipe if it's above the velocity limit
     }
 
@@ -524,10 +524,8 @@ class Customcarousel extends HTMLElement {
 
     if(allWidthsDefined) {
       this._postInit();
-    } else {
-      if(!this._checkImageLoading()) {
-        this.intervalId = setInterval(() => { this._checkImageLoading() }, 100);
-      }
+    } else if(!this._checkImageLoading()) {
+      this.intervalId = setInterval(() => { this._checkImageLoading() }, 100);
     }
 
     if(!this.isInitialized) {

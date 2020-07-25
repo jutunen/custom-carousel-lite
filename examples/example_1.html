@@ -52,12 +52,19 @@
     width: 500px;
   }
 
-  .item {
-    /*display: inline;*/
+  #karuselli .item {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  #karuselli_2 .item {
     margin-right: 90px;
     margin-left: 90px;
-    /*box-sizing: border-box;*/
-    /*padding: 10px;*/
+  }
+
+  #karuselli_3 .item {
+    margin-right: 40px;
+    margin-left: 40px;
   }
 
   .mittari {
@@ -86,7 +93,7 @@
   }
 
   .space {
-    height: 200px;
+    height: 100px;
   }
 
   .number {
@@ -110,17 +117,18 @@
     flex-direction: column;
     font-family: Arial;
     box-shadow: 4px 4px 4px lightgrey;
-    font-size: 20px;
+    font-size: 22px;
   }
 
-  #description {
-    width: 600px;
+  #description, #footer {
+    width: 650px;
     padding: 10px 20px;
     margin:10px auto;
-    font-size: 16px;
+    font-size: 18px;
     font-style: italic;
     font-family: Arial;
     text-align: center;
+    color:white;
   }
 
   .text_container {
@@ -136,6 +144,8 @@
     width: 900px;
     text-align: center;
     padding: 20px;
+    color: white;
+    text-shadow: 2px 2px black;
   }
 
 </style>
@@ -150,7 +160,7 @@
   </div>
   <div class="text_container">
     <div class="demotext">
-      Infinite carousel with 100% width:
+      Infinite carousel with 100% width,<br> with 20px side margins per item:
     </div>
   </div>
   <wc-carousel-lite id="karuselli" init-item=5 transition-duration=1000 infinite>
@@ -230,7 +240,7 @@
 
   <div class="text_container">
     <div class="demotext">
-      Infinite carousel with 500px width:
+      Infinite carousel with 500px width,<br> with 90px side margins per item:
     </div>
   </div>
   <wc-carousel-lite id="karuselli_2" init-item=4 transition-duration=1000 infinite>
@@ -293,7 +303,7 @@
 
   <div class="text_container">
     <div class="demotext">
-      Between centered non-infinite carousel with 100% width:
+      Between centered non-infinite carousel with 100% width,<br> with 40px side margins per item:
     </div>
   </div>
 
@@ -357,7 +367,7 @@
 
   <div class="text_container">
     <div class="demotext">
-      Non-infinite carousel with 100% width,<br>using images as items directly,<br>item right and left margin 0:
+      Non-infinite carousel with 100% width,<br>using images as items directly,<br> with 0px side margins per item:
     </div>
   </div>
 
@@ -386,6 +396,10 @@
   </div>
 
   <div class="space"></div>
+
+  <div id="footer">
+    All kitties on this page are from <a href="https://placekitten.com" target="_blank">placekitten.com</a>
+  </div>
 
 </body>
 </html>

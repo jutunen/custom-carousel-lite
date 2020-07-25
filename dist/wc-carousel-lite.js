@@ -62,8 +62,8 @@ class Customcarousel extends HTMLElement {
       this.interval = parseInt(newValue);
     } else if (name === "direction") {
       this.direction = newValue;
-    } else if (name === 'item') {
-      this.item = newValue
+    } else if (name === "item") {
+      this.item = newValue;
     }
   }
 
@@ -82,12 +82,12 @@ class Customcarousel extends HTMLElement {
 
     if (!this.infinite) {
       if (
-        !this.centerBetween && this.currentlyCentered + (shift - 1) < this.itemsCount - 1 ||
-        this.centerBetween && this.currentlyCentered < this.itemsCount - 3
+        (!this.centerBetween && this.currentlyCentered + (shift - 1) < this.itemsCount - 1) ||
+        (this.centerBetween && this.currentlyCentered < this.itemsCount - 3)
       ) {
         this._stopTransition();
       }
-      shift = this._shiftReducer("l",shift);
+      shift = this._shiftReducer("l", shift);
       this._centerItemByIndex(this.currentlyCentered + shift);
       return;
     }
@@ -109,7 +109,7 @@ class Customcarousel extends HTMLElement {
       if (this.currentlyCentered < 0) {
         this._stopTransition();
       }
-      shift = this._shiftReducer("r",shift);
+      shift = this._shiftReducer("r", shift);
       this._centerItemByIndex(this.currentlyCentered - shift);
       return;
     }
@@ -130,13 +130,16 @@ class Customcarousel extends HTMLElement {
   }
 
   _centerItemByIndex(index) {
-
     let center = this.offsetWidth / 2;
     let entries = this.itemsContainer.querySelectorAll("." + this.item);
-    if (this.centerBetween && index === entries.length - 1 || !entries[index]) {
+    if ((this.centerBetween && index === entries.length - 1) || !entries[index]) {
       return;
     }
-    let i, nextMarginMiddle, style, margin, sum = 0;
+    let i,
+      nextMarginMiddle,
+      style,
+      margin,
+      sum = 0;
     for (i = 0; i < index; i++) {
       style = getComputedStyle(entries[i]);
       margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
@@ -191,7 +194,6 @@ class Customcarousel extends HTMLElement {
   }
 
   _copyItems(factor) {
-
     while (this.itemsContainer.firstChild) {
       this.itemsContainer.firstChild.remove();
     }
@@ -214,7 +216,7 @@ class Customcarousel extends HTMLElement {
     this.itemsCount = this.itemsContainer.querySelectorAll("." + this.item).length;
   }
 
-  _getItemWidth (item) {
+  _getItemWidth(item) {
     let style, margin;
     style = getComputedStyle(item);
     margin = parseFloat(style.marginLeft) + parseFloat(style.marginRight);
@@ -249,8 +251,7 @@ class Customcarousel extends HTMLElement {
   }
 
   _itemsInit() {
-
-    if(!this.connected) {
+    if (!this.connected) {
       return;
     }
 
@@ -259,7 +260,7 @@ class Customcarousel extends HTMLElement {
       return;
     }
 
-    let factor = parseInt(2.75 * this.offsetWidth / this.initItemsWidth);
+    let factor = parseInt((2.75 * this.offsetWidth) / this.initItemsWidth);
 
     if (this.originalEntries.length < 3) {
       factor += 3;
@@ -363,9 +364,9 @@ class Customcarousel extends HTMLElement {
   _shiftReducer(dir, shift) {
     let remaining;
     if (dir === "l") {
-      remaining = this.originalEntries.length - (this.centerBetween ? 2 : 1) - this.currentlyCentered;
-    }
-    else{
+      remaining =
+        this.originalEntries.length - (this.centerBetween ? 2 : 1) - this.currentlyCentered;
+    } else {
       remaining = this.currentlyCentered;
     }
 
@@ -376,7 +377,7 @@ class Customcarousel extends HTMLElement {
   }
 
   _getItemIndex(elem) {
-    if(!elem) {
+    if (!elem) {
       return null;
     }
     let i = 0;
@@ -387,7 +388,6 @@ class Customcarousel extends HTMLElement {
   }
 
   _downEventHandler(event) {
-
     let closestElement = event.target.closest("." + this.item);
     this.downEventItemIndex = this._getItemIndex(closestElement);
 
@@ -399,7 +399,7 @@ class Customcarousel extends HTMLElement {
       this.x = event.targetTouches[0].pageX;
       this.y = event.targetTouches[0].pageY;
     }
-    this.startTime = new Date().getTime()
+    this.startTime = new Date().getTime();
   }
 
   _upEventHandler(event) {
@@ -416,7 +416,7 @@ class Customcarousel extends HTMLElement {
     let closestElement = elem.closest("." + this.item);
     let closestIndex = this._getItemIndex(closestElement);
     let shiftInItems;
-    if( Number.isInteger(this.downEventItemIndex) && Number.isInteger(closestIndex) ) {
+    if (Number.isInteger(this.downEventItemIndex) && Number.isInteger(closestIndex)) {
       shiftInItems = Math.abs(this.downEventItemIndex - closestIndex);
     } else {
       shiftInItems = 1;
@@ -426,51 +426,50 @@ class Customcarousel extends HTMLElement {
     let yShift = (event.pageY ? event.pageY : event.changedTouches[0].pageY) - this.y;
 
     let elapsedTime = new Date().getTime() - this.startTime;
-    let velocity = Math.abs(xShift/elapsedTime);
+    let velocity = Math.abs(xShift / elapsedTime);
 
-    if(velocity > this.touchVelocityLimit && event.changedTouches) {
+    if (velocity > this.touchVelocityLimit && event.changedTouches) {
       shiftInItems++; // boost touch swipe if it's above the velocity limit
-    } else if( velocity > this.mouseVelocityLimit) {
+    } else if (velocity > this.mouseVelocityLimit) {
       shiftInItems++; // boost mouse swipe if it's above the velocity limit
     }
 
-    if ( Math.abs(xShift) > this.minShiftRequired && Math.abs(xShift) > Math.abs(yShift) ) {
+    if (Math.abs(xShift) > this.minShiftRequired && Math.abs(xShift) > Math.abs(yShift)) {
       event.preventDefault();
       this.preventClick = true;
-      if (xShift < -this.minShiftRequired ) {
+      if (xShift < -this.minShiftRequired) {
         this.next(shiftInItems);
-      } else if (xShift > this.minShiftRequired ) {
+      } else if (xShift > this.minShiftRequired) {
         this.prev(shiftInItems);
       }
     }
   }
 
-  _clickHandler (event) {
-    if(this.preventClick) {
+  _clickHandler(event) {
+    if (this.preventClick) {
       event.preventDefault();
     }
     this.preventClick = false;
-    this.focus()
+    this.focus();
   }
 
-  _keyDownEventHandler (event) {
-    if(event.key === "ArrowRight") {
+  _keyDownEventHandler(event) {
+    if (event.key === "ArrowRight") {
       this.prev();
-    } else if(event.key === "ArrowLeft") {
+    } else if (event.key === "ArrowLeft") {
       this.next();
     }
   }
 
-  _checkImageLoading () {
-    if(this.carouselImages.every( x => x.complete === true)) {
+  _checkImageLoading() {
+    if (this.carouselImages.every((x) => x.complete === true)) {
       clearInterval(this.intervalId);
       this._postInit();
       return true;
     }
   }
 
-  _postInit () {
-
+  _postInit() {
     let style, margin;
     this.initItemsWidth = 0;
     for (let i = 0; i < this.originalEntries.length; i++) {
@@ -492,8 +491,7 @@ class Customcarousel extends HTMLElement {
   }
 
   _init() {
-
-    if(!this.isInitialized) {
+    if (!this.isInitialized) {
       this.sliderContainer = this.appendChild(document.createElement("div"));
       this.sliderContainer.style.display = "flex";
       this.sliderContainer.style.overflow = "hidden";
@@ -513,22 +511,25 @@ class Customcarousel extends HTMLElement {
       this.initItem = 0;
     }
 
-    let style, allWidthsDefined = true;
+    let style,
+      allWidthsDefined = true;
     for (let i = 0; i < this.originalEntries.length; i++) {
       style = getComputedStyle(this.originalEntries[i]);
-      if(parseFloat(style.width) === 0) {
+      if (parseFloat(style.width) === 0) {
         allWidthsDefined = false;
         break;
       }
     }
 
-    if(allWidthsDefined) {
+    if (allWidthsDefined) {
       this._postInit();
-    } else if(!this._checkImageLoading()) {
-      this.intervalId = setInterval(() => { this._checkImageLoading() }, 100);
+    } else if (!this._checkImageLoading()) {
+      this.intervalId = setInterval(() => {
+        this._checkImageLoading();
+      }, 100);
     }
 
-    if(!this.isInitialized) {
+    if (!this.isInitialized) {
       this.tabIndex = 0;
       this.ontouchstart = this._downEventHandler;
       this.ontouchstart = this.ontouchstart.bind(this);
@@ -548,10 +549,10 @@ class Customcarousel extends HTMLElement {
       this.onclick = this._clickHandler;
       this.onclick = this.onclick.bind(this);
 
-      this.onkeydown = this._keyDownEventHandler
-      this.onkeydown = this.onkeydown.bind(this)
+      this.onkeydown = this._keyDownEventHandler;
+      this.onkeydown = this.onkeydown.bind(this);
 
-      window.addEventListener("resize", () => this._itemsInit() );
+      window.addEventListener("resize", () => this._itemsInit());
     }
 
     this.isInitialized = true;

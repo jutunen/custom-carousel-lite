@@ -291,7 +291,7 @@ This attribute can't be assigned as an HTML attribute.
 
 ## Setting attributes dynamically
 
-*initItem* and *infinite* attributes should be set before the carousel is appended to DOM.
+*initItem* and *infinite* attributes should be set only when the carousel is not appended to DOM.
 
 Example:
 
@@ -319,7 +319,7 @@ Example:
  
 ## Methods
 
-Methods can not be used before the carousel is appended to DOM.
+Methods should not be used unless the carousel is appended to DOM.
 
 ### next( shift )
 
@@ -396,6 +396,11 @@ Building (minifying) requires [terser](https://github.com/terser/terser) command
 ## Contributing
 
 Questions, suggestions and bug reports are welcome. Safari testing would be nice.
+
+## To do
+
+- dots
+- add / remove item methods
 
 ## License
 
